@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from "@/lib/utils";
-import { LogIn, LogOut, Menu, X } from 'lucide-react';
+import { LogIn, LogOut, Menu, X, User, Calendar, Activity, LayoutDashboard } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { toast } from 'sonner';
 
@@ -52,9 +52,15 @@ const Navbar = () => {
 
   const navItems = [
     { path: '/', label: 'Home' },
-    { path: '/consultation', label: 'Consultation' },
-    { path: '/prescription', label: 'Prescription' },
-    { path: '/mediport', label: 'MediPort' },
+  ];
+
+  const authenticatedNavItems = [
+    { path: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
+    { path: '/consultation', label: 'Consultation', icon: <User className="h-4 w-4" /> },
+    { path: '/prescription', label: 'Prescription', icon: <FileText className="h-4 w-4" /> },
+    { path: '/appointments', label: 'Appointments', icon: <Calendar className="h-4 w-4" /> },
+    { path: '/activity', label: 'Activity', icon: <Activity className="h-4 w-4" /> },
+    { path: '/mediport', label: 'MediPort', icon: <MedicalBag className="h-4 w-4" /> },
   ];
 
   const toggleMobileMenu = () => {
@@ -97,6 +103,30 @@ const Navbar = () => {
                   {isActive && (
                     <motion.div
                       layoutId="nav-indicator"
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    />
+                  )}
+                </>
+              )}
+            </NavLink>
+          ))}
+          
+          {isAuthenticated && authenticatedNavItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) => cn(
+                "relative text-sm font-medium transition-all duration-200 hover:text-primary",
+                isActive ? "text-primary" : "text-foreground/80"
+              )}
+            >
+              {({ isActive }) => (
+                <>
+                  {item.label}
+                  {isActive && (
+                    <motion.div
+                      layoutId={`nav-indicator-${item.path}`}
                       className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
                     />
@@ -169,6 +199,21 @@ const Navbar = () => {
               </NavLink>
             ))}
             
+            {isAuthenticated && authenticatedNavItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) => cn(
+                  "text-base py-2 font-medium transition-all duration-200 hover:text-primary flex items-center gap-2",
+                  isActive ? "text-primary" : "text-foreground/80"
+                )}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {item.icon}
+                {item.label}
+              </NavLink>
+            ))}
+            
             <div className="pt-4 border-t border-gray-100">
               {isAuthenticated ? (
                 <div className="space-y-3">
@@ -205,5 +250,26 @@ const Navbar = () => {
     </nav>
   );
 };
+
+// FileText icon component
+const FileText = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <line x1="16" y1="13" x2="8" y2="13"/>
+    <line x1="16" y1="17" x2="8" y2="17"/>
+    <line x1="10" y1="9" x2="8" y2="9"/>
+  </svg>
+);
+
+// MedicalBag icon component
+const MedicalBag = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <rect x="4" y="8" width="16" height="12" rx="2"/>
+    <path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+    <line x1="12" y1="12" x2="12" y2="16"/>
+    <line x1="10" y1="14" x2="14" y2="14"/>
+  </svg>
+);
 
 export default Navbar;
