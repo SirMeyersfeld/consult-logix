@@ -8,6 +8,8 @@ import Index from "./pages/Index";
 import Consultation from "./pages/Consultation";
 import Prescription from "./pages/Prescription";
 import MediPort from "./pages/MediPort";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +25,8 @@ const App = () => (
           <Route path="/consultation" element={<Consultation />} />
           <Route path="/prescription" element={<Prescription />} />
           <Route path="/mediport" element={<MediPort />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

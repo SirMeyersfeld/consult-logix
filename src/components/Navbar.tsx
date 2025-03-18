@@ -1,12 +1,28 @@
 
 import { useState, useEffect } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from "@/lib/utils";
+import { LogIn, LogOut, Menu, X } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { toast } from 'sonner';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+
+  useEffect(() => {
+    // Check authentication status
+    const authStatus = localStorage.getItem('isAuthenticated') === 'true';
+    const email = localStorage.getItem('userEmail') || '';
+    
+    setIsAuthenticated(authStatus);
+    setUserEmail(email);
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +40,16 @@ const Navbar = () => {
     };
   }, []);
 
+  const handleSignOut = () => {
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userName');
+    setIsAuthenticated(false);
+    setUserEmail('');
+    toast.success('You have been signed out');
+    navigate('/');
+  };
+
   const navItems = [
     { path: '/', label: 'Home' },
     { path: '/consultation', label: 'Consultation' },
@@ -31,12 +57,16 @@ const Navbar = () => {
     { path: '/mediport', label: 'MediPort' },
   ];
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
   return (
     <nav
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300 ease-in-out px-6 md:px-10 py-4",
         scrolled 
-          ? "bg-white bg-opacity-80 backdrop-blur-md shadow-sm" 
+          ? "bg-white bg-opacity-90 backdrop-blur-md shadow-sm" 
           : "bg-transparent"
       )}
     >
@@ -77,20 +107,101 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="hidden md:block">
-          <button className="bg-primary text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5">
-            Sign In
-          </button>
+        <div className="hidden md:flex items-center gap-4">
+          {isAuthenticated ? (
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-muted-foreground">{userEmail}</span>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleSignOut}
+                className="flex items-center gap-1"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </Button>
+            </div>
+          ) : (
+            <Button 
+              onClick={() => navigate('/sign-in')}
+              className="bg-primary text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 flex items-center gap-1"
+            >
+              <LogIn className="w-4 h-4" />
+              Sign In
+            </Button>
+          )}
         </div>
 
-        <button className="block md:hidden">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
+        <button 
+          className="block md:hidden" 
+          onClick={toggleMobileMenu}
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+        >
+          {mobileMenuOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
         </button>
       </div>
+
+      {/* Mobile menu */}
+      {mobileMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.2 }}
+          className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg p-6 z-50"
+        >
+          <div className="flex flex-col space-y-4">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) => cn(
+                  "text-base py-2 font-medium transition-all duration-200 hover:text-primary",
+                  isActive ? "text-primary" : "text-foreground/80"
+                )}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+            
+            <div className="pt-4 border-t border-gray-100">
+              {isAuthenticated ? (
+                <div className="space-y-3">
+                  <div className="text-sm text-muted-foreground">{userEmail}</div>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => {
+                      handleSignOut();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full justify-center"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </Button>
+                </div>
+              ) : (
+                <Button 
+                  onClick={() => {
+                    navigate('/sign-in');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full justify-center"
+                >
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Sign In
+                </Button>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      )}
     </nav>
   );
 };
