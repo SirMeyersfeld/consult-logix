@@ -2,7 +2,7 @@
 import { useState, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Mic, MicOff, Play, Stop, Download } from "lucide-react";
+import { Mic, MicOff, Play, Square, Download } from "lucide-react";
 import { toast } from 'sonner';
 
 const PrescriptionRecorder = () => {
@@ -94,7 +94,7 @@ const PrescriptionRecorder = () => {
             className="flex items-center gap-2"
             onClick={isRecording ? stopRecording : startRecording}
           >
-            {isRecording ? <MicOff size={18} /> : <Mic size={18} />}
+            {isRecording ? <Square size={18} /> : <Mic size={18} />}
             {isRecording ? "Stop Recording" : "Record Consultation"}
           </Button>
           
