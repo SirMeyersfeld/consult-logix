@@ -10,6 +10,7 @@ import Prescription from "./pages/Prescription";
 import MediPort from "./pages/MediPort";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import Subscription from "./pages/Subscription";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/mediport" element={<MediPort />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/subscription" element={<Subscription />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

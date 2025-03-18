@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { Loader2, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
+import { Loader2, Mail, Lock, User, Eye, EyeOff, CreditCard } from "lucide-react";
 import { toast } from 'sonner';
 import AnimatedTransition from '@/components/AnimatedTransition';
 
@@ -30,7 +30,8 @@ const SignUp = () => {
         localStorage.setItem('userName', name);
         localStorage.setItem('userEmail', email);
         toast.success('Account created successfully!');
-        navigate('/');
+        // Redirect to subscription page instead of home
+        navigate('/subscription');
       } else {
         toast.error('Please fill in all fields');
       }
@@ -110,20 +111,33 @@ const SignUp = () => {
               </div>
             </div>
             
-            <Button 
-              type="submit" 
-              className="w-full h-11"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creating account...
-                </>
-              ) : (
-                "Create Account"
-              )}
-            </Button>
+            <div className="flex flex-col gap-2 pt-2">
+              <Button 
+                type="submit" 
+                className="w-full h-11"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Creating account...
+                  </>
+                ) : (
+                  "Create Account"
+                )}
+              </Button>
+              
+              <Link to="/subscription" className="w-full">
+                <Button 
+                  type="button" 
+                  className="w-full"
+                  variant="outline"
+                >
+                  <CreditCard className="w-4 h-4 mr-2" />
+                  View Subscription Plans
+                </Button>
+              </Link>
+            </div>
           </form>
           
           <div className="mt-6 pt-6 border-t border-border text-center">
