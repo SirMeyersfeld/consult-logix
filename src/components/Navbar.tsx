@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from "@/lib/utils";
-import { LogIn, LogOut, Menu, X, User, Calendar, Activity, LayoutDashboard } from 'lucide-react';
+import { LogIn, LogOut, Menu, X, User, Calendar, Activity, LayoutDashboard, FileText, MedicalBag } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { toast } from 'sonner';
 
@@ -14,14 +14,17 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userEmail, setUserEmail] = useState('');
+  const [subscriptionType, setSubscriptionType] = useState<'doctor' | 'patient' | null>(null);
 
   useEffect(() => {
     // Check authentication status
     const authStatus = localStorage.getItem('isAuthenticated') === 'true';
     const email = localStorage.getItem('userEmail') || '';
+    const plan = localStorage.getItem('subscriptionPlan') as 'doctor' | 'patient' | null;
     
     setIsAuthenticated(authStatus);
     setUserEmail(email);
+    setSubscriptionType(plan);
   }, [location.pathname]);
 
   useEffect(() => {
@@ -54,14 +57,28 @@ const Navbar = () => {
     { path: '/', label: 'Home' },
   ];
 
-  const authenticatedNavItems = [
-    { path: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
-    { path: '/consultation', label: 'Consultation', icon: <User className="h-4 w-4" /> },
-    { path: '/prescription', label: 'Prescription', icon: <FileText className="h-4 w-4" /> },
-    { path: '/appointments', label: 'Appointments', icon: <Calendar className="h-4 w-4" /> },
-    { path: '/activity', label: 'Activity', icon: <Activity className="h-4 w-4" /> },
-    { path: '/mediport', label: 'MediPort', icon: <MedicalBag className="h-4 w-4" /> },
-  ];
+  // Only show relevant nav items based on subscription
+  const getDynamicNavItems = () => {
+    const baseItems = [];
+    
+    if (subscriptionType === 'doctor') {
+      return [
+        { path: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
+        { path: '/consultation', label: 'Consultation', icon: <User className="h-4 w-4" /> },
+        { path: '/prescription', label: 'Prescription', icon: <FileText className="h-4 w-4" /> },
+        { path: '/appointments', label: 'Appointments', icon: <Calendar className="h-4 w-4" /> },
+      ];
+    } else if (subscriptionType === 'patient') {
+      return [
+        { path: '/mediport', label: 'MediPort', icon: <MedicalBag className="h-4 w-4" /> },
+        { path: '/appointments', label: 'Appointments', icon: <Calendar className="h-4 w-4" /> },
+      ];
+    }
+    
+    return baseItems;
+  };
+  
+  const authenticatedNavItems = getDynamicNavItems();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -140,7 +157,15 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-4">
           {isAuthenticated ? (
             <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground">{userEmail}</span>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => navigate('/profile')}
+                className="flex items-center gap-1"
+              >
+                <User className="w-4 h-4" />
+                Profile
+              </Button>
               <Button 
                 variant="outline" 
                 size="sm" 
@@ -217,7 +242,14 @@ const Navbar = () => {
             <div className="pt-4 border-t border-gray-100">
               {isAuthenticated ? (
                 <div className="space-y-3">
-                  <div className="text-sm text-muted-foreground">{userEmail}</div>
+                  <NavLink
+                    to="/profile"
+                    className="flex items-center gap-2 py-2 text-base font-medium text-foreground/80 hover:text-primary"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <User className="w-4 h-4" />
+                    Your Profile
+                  </NavLink>
                   <Button 
                     variant="outline" 
                     size="sm" 
@@ -250,26 +282,5 @@ const Navbar = () => {
     </nav>
   );
 };
-
-// FileText icon component
-const FileText = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
-    <polyline points="14 2 14 8 20 8"/>
-    <line x1="16" y1="13" x2="8" y2="13"/>
-    <line x1="16" y1="17" x2="8" y2="17"/>
-    <line x1="10" y1="9" x2="8" y2="9"/>
-  </svg>
-);
-
-// MedicalBag icon component
-const MedicalBag = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <rect x="4" y="8" width="16" height="12" rx="2"/>
-    <path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-    <line x1="12" y1="12" x2="12" y2="16"/>
-    <line x1="10" y1="14" x2="14" y2="14"/>
-  </svg>
-);
 
 export default Navbar;

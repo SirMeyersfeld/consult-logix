@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -27,8 +26,11 @@ const SignIn = () => {
       if (email && password) {
         localStorage.setItem('isAuthenticated', 'true');
         localStorage.setItem('userEmail', email);
+        localStorage.setItem('userName', email.split('@')[0]);
         toast.success('Successfully signed in!');
-        navigate('/');
+        
+        // Redirect to profile page instead of home
+        navigate('/profile');
       } else {
         toast.error('Please enter both email and password');
       }
