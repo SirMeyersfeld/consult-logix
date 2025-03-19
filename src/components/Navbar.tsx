@@ -1,8 +1,13 @@
+
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from "@/lib/utils";
-import { LogIn, LogOut, Menu, X, User, Calendar, Activity, LayoutDashboard, FileText, Stethoscope } from 'lucide-react';
+import { 
+  LogIn, LogOut, Menu, X, User, Calendar, Activity, LayoutDashboard, 
+  FileText, Stethoscope, Pill, Microscope, MessageCircle, BarChart, 
+  Settings
+} from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { toast } from 'sonner';
 
@@ -61,14 +66,18 @@ const Navbar = () => {
     if (subscriptionType === 'doctor') {
       return [
         { path: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
-        { path: '/consultation', label: 'Consultation', icon: <User className="h-4 w-4" /> },
+        { path: '/consultation', label: 'Consultation', icon: <MessageCircle className="h-4 w-4" /> },
         { path: '/prescription', label: 'Prescription', icon: <FileText className="h-4 w-4" /> },
         { path: '/appointments', label: 'Appointments', icon: <Calendar className="h-4 w-4" /> },
+        { path: '/activity', label: 'Activity', icon: <Activity className="h-4 w-4" /> },
       ];
     } else if (subscriptionType === 'patient') {
       return [
         { path: '/mediport', label: 'MediPort', icon: <Stethoscope className="h-4 w-4" /> },
+        { path: '/medical-records', label: 'Records', icon: <FileText className="h-4 w-4" /> },
         { path: '/appointments', label: 'Appointments', icon: <Calendar className="h-4 w-4" /> },
+        { path: '/medications', label: 'Medications', icon: <Pill className="h-4 w-4" /> },
+        { path: '/lab-results', label: 'Lab Results', icon: <Microscope className="h-4 w-4" /> },
       ];
     }
     

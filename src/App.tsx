@@ -16,6 +16,12 @@ import Dashboard from "./pages/Dashboard";
 import Appointments from "./pages/Appointments";
 import Activity from "./pages/Activity";
 import Profile from "./pages/Profile";
+import MedicalRecords from "./pages/MedicalRecords";
+import RecordDetails from "./pages/RecordDetails";
+import Medications from "./pages/Medications";
+import AddMedication from "./pages/AddMedication";
+import MedicationDetails from "./pages/MedicationDetails";
+import LabResults from "./pages/LabResults";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +36,12 @@ const App = () => (
           <Route path="/consultation" element={<Consultation />} />
           <Route path="/prescription" element={<Prescription />} />
           <Route path="/mediport" element={<MediPort />} />
+          <Route path="/medical-records" element={<MedicalRecords />} />
+          <Route path="/record-details/:id" element={<RecordDetails />} />
+          <Route path="/medications" element={<Medications />} />
+          <Route path="/add-medication" element={<AddMedication />} />
+          <Route path="/medication-details/:id" element={<MedicationDetails />} />
+          <Route path="/lab-results" element={<LabResults />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/subscription" element={<Subscription />} />
