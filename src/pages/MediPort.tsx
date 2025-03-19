@@ -1,11 +1,19 @@
 
 import Navbar from '@/components/Navbar';
 import MedicalHistory from '@/components/MedicalHistory';
+import PrescriptionRecorder from '@/components/PrescriptionRecorder';
 import AnimatedTransition from '@/components/AnimatedTransition';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const MediPort = () => {
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
   // Sample user data for demo
   const userData = {
     name: "John Doe",
@@ -15,6 +23,17 @@ const MediPort = () => {
     chronicConditions: ["Asthma"],
     lastCheckup: "2023-09-15"
   };
+
+  useEffect(() => {
+    // Check authentication status
+    const authStatus = localStorage.getItem('isAuthenticated') === 'true';
+    setIsAuthenticated(authStatus);
+    
+    if (!authStatus) {
+      toast.error('Please sign in to access your health records');
+      navigate('/sign-in');
+    }
+  }, [navigate]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-background/60">
@@ -133,8 +152,20 @@ const MediPort = () => {
           <AnimatedTransition type="fadeInUp" delay={0.3} className="lg:col-span-2">
             <Card className="overflow-hidden border-border/50 shadow-lg glass-panel">
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-6">Medical History</h3>
-                <MedicalHistory />
+                <Tabs defaultValue="history" className="w-full">
+                  <TabsList className="mb-4 w-full justify-start">
+                    <TabsTrigger value="history">Medical History</TabsTrigger>
+                    <TabsTrigger value="recordings">Audio Recordings</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="history">
+                    <h3 className="text-xl font-semibold mb-6">Medical History</h3>
+                    <MedicalHistory />
+                  </TabsContent>
+                  <TabsContent value="recordings">
+                    <h3 className="text-xl font-semibold mb-6">Record & Review Medical Consultations</h3>
+                    <PrescriptionRecorder />
+                  </TabsContent>
+                </Tabs>
               </div>
             </Card>
           </AnimatedTransition>
