@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
@@ -8,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { FileText, Calendar, Activity as ActivityIcon, Pill, Flask, Filter, Search } from 'lucide-react';
+import { FileText, Calendar, Activity as ActivityIcon, Pill, FlaskConical, Filter, Search } from 'lucide-react';
 import { toast } from 'sonner';
 
 const Activity = () => {
@@ -47,7 +46,6 @@ const Activity = () => {
     { name: 'Lab Results', value: activityCounts.lab, color: categoryColors.lab }
   ];
 
-  // Monthly activity data
   const monthlyData = [
     { name: 'Jan', consultation: 2, prescription: 1, lab: 1 },
     { name: 'Feb', consultation: 1, prescription: 3, lab: 2 },
@@ -57,7 +55,6 @@ const Activity = () => {
   ];
 
   useEffect(() => {
-    // Check authentication status
     const authStatus = localStorage.getItem('isAuthenticated') === 'true';
     setIsAuthenticated(authStatus);
     
@@ -82,7 +79,7 @@ const Activity = () => {
       case 'prescription':
         return <Pill className="h-5 w-5" style={{ color: categoryColors.prescription }} />;
       case 'lab':
-        return <Flask className="h-5 w-5" style={{ color: categoryColors.lab }} />;
+        return <FlaskConical className="h-5 w-5" style={{ color: categoryColors.lab }} />;
       default:
         return <ActivityIcon className="h-5 w-5 text-primary" />;
     }
@@ -103,7 +100,6 @@ const Activity = () => {
         </AnimatedTransition>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Analytics & Charts */}
           <AnimatedTransition type="fadeInUp" delay={0.1} className="lg:col-span-1">
             <div className="space-y-6">
               <Card className="border-border/50 shadow-sm overflow-hidden">
@@ -174,7 +170,6 @@ const Activity = () => {
             </div>
           </AnimatedTransition>
           
-          {/* Activity List */}
           <AnimatedTransition type="fadeInUp" delay={0.2} className="lg:col-span-2">
             <Card className="border-border/50 shadow-sm overflow-hidden">
               <Tabs defaultValue="all" className="p-6">
