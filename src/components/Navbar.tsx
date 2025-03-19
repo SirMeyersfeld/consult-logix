@@ -1,9 +1,8 @@
-
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from "@/lib/utils";
-import { LogIn, LogOut, Menu, X, User, Calendar, Activity, LayoutDashboard, FileText, MedicalBag } from 'lucide-react';
+import { LogIn, LogOut, Menu, X, User, Calendar, Activity, LayoutDashboard, FileText, Stethoscope } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { toast } from 'sonner';
 
@@ -17,7 +16,6 @@ const Navbar = () => {
   const [subscriptionType, setSubscriptionType] = useState<'doctor' | 'patient' | null>(null);
 
   useEffect(() => {
-    // Check authentication status
     const authStatus = localStorage.getItem('isAuthenticated') === 'true';
     const email = localStorage.getItem('userEmail') || '';
     const plan = localStorage.getItem('subscriptionPlan') as 'doctor' | 'patient' | null;
@@ -57,7 +55,6 @@ const Navbar = () => {
     { path: '/', label: 'Home' },
   ];
 
-  // Only show relevant nav items based on subscription
   const getDynamicNavItems = () => {
     const baseItems = [];
     
@@ -70,14 +67,14 @@ const Navbar = () => {
       ];
     } else if (subscriptionType === 'patient') {
       return [
-        { path: '/mediport', label: 'MediPort', icon: <MedicalBag className="h-4 w-4" /> },
+        { path: '/mediport', label: 'MediPort', icon: <Stethoscope className="h-4 w-4" /> },
         { path: '/appointments', label: 'Appointments', icon: <Calendar className="h-4 w-4" /> },
       ];
     }
     
     return baseItems;
   };
-  
+
   const authenticatedNavItems = getDynamicNavItems();
 
   const toggleMobileMenu = () => {
@@ -200,7 +197,6 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile menu */}
       {mobileMenuOpen && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
