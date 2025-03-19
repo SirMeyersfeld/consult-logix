@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -7,18 +6,13 @@ import { toast } from 'sonner';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 
-// Add TypeScript interface for the window object with SpeechRecognition
-interface IWindow extends Window {
-  SpeechRecognition?: typeof SpeechRecognition;
-  webkitSpeechRecognition?: typeof SpeechRecognition;
-}
-
 const PrescriptionRecorder = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [recordingStatus, setRecordingStatus] = useState('idle');
   const [audioURL, setAudioURL] = useState<string | null>(null);
   const [recordingName, setRecordingName] = useState('');
   const [transcript, setTranscript] = useState('');
+  const [processedTranscript, setProcessedTranscript] = useState('');
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [recordings, setRecordings] = useState<Array<{name: string, url: string, date: string, doctor: string, transcript?: string}>>([
     {
@@ -26,59 +20,122 @@ const PrescriptionRecorder = () => {
       url: "#", 
       date: "2024-04-15",
       doctor: "Dr. Sarah Johnson",
-      transcript: "Patient presents with symptoms of seasonal allergies including nasal congestion, itchy eyes, and occasional cough. Recommending daily antihistamine and nasal spray."
+      transcript: "PRESCRIPTION: Loratadine 10mg daily for allergies. DIAGNOSIS: Seasonal rhinitis. INSTRUCTIONS: Take in the morning with water."
     },
     {
       name: "Follow-up Appointment", 
       url: "#", 
       date: "2024-05-02",
       doctor: "Dr. Michael Chen",
-      transcript: "Follow-up for previous allergy symptoms. Patient reports significant improvement with prescribed medications. Continue current regimen for another two weeks."
+      transcript: "FOLLOW-UP: Allergy symptoms improved. CONTINUE: Current regimen for two weeks. NEXT APPOINTMENT: In one month if symptoms persist."
     }
   ]);
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<BlobPart[]>([]);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const fullTranscriptRef = useRef<string>('');
+  
+  // List of medical and prescription-related keywords to highlight
+  const keywordPatterns = [
+    // Medications and dosages
+    /\b\d+\s*mg\b/i, /\b\d+\s*mcg\b/i, /\b\d+\s*ml\b/i, /\b\d+\s*tablets?\b/i, 
+    /\b\d+\s*capsules?\b/i, /\b\d+\s*times?\s*daily\b/i, /\b\d+\s*times?\s*a\s*day\b/i,
+    /\btake\s+\w+\b/i, /\btablet(s)?\b/i, /\bcapsule(s)?\b/i, /\bpill(s)?\b/i,
+    
+    // Common prescription medications
+    /\b(amoxicillin|lisinopril|metformin|atorvastatin|amlodipine|losartan|albuterol|omeprazole|levothyroxine|gabapentin)\b/i,
+    
+    // Instructions and timing
+    /\b(before|after|with)\s+meals?\b/i, /\b(before|at|after)\s+bedtime\b/i, /\bon\s+an\s+empty\s+stomach\b/i,
+    /\bevery\s+\d+\s+hours?\b/i, /\btwice\s+daily\b/i, /\bonce\s+daily\b/i, /\bthree\s+times\s+daily\b/i,
+    
+    // Medical terms and sections
+    /\bprescri(be|ption|bed)\b/i, /\bdiagnosis\b/i, /\btreatment\b/i, /\bfollow[\s-]up\b/i,
+    /\bsymptoms?\b/i, /\ballerg(y|ies|ic)\b/i, /\bside[\s-]effects?\b/i, /\bdosage\b/i,
+    /\binstructions?\b/i, /\bcontinue\b/i, /\bnext\s+appointment\b/i, /\breferral\b/i,
+    /\blab\s+test(s)?\b/i, /\bblood\s+test(s)?\b/i, /\bx[\s-]ray\b/i, /\bscan\b/i,
+    
+    // Duration terms
+    /\bfor\s+\d+\s+(day|week|month)(s)?\b/i, /\buntil\s+\w+\b/i,
+    
+    // Routes of administration
+    /\boral(ly)?\b/i, /\btopical(ly)?\b/i, /\binject(ion|able)\b/i, /\binhal(er|e|ation)\b/i
+  ];
+  
+  // Function to extract and highlight medical keywords
+  const extractKeywords = (text: string): string => {
+    if (!text) return '';
+    
+    // Split the text into sentences
+    const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+    let keywordResults: string[] = [];
+    
+    sentences.forEach(sentence => {
+      const trimmedSentence = sentence.trim();
+      // Check if the sentence contains any of our keywords
+      if (keywordPatterns.some(pattern => pattern.test(trimmedSentence))) {
+        // Identify the specific categories present
+        if (/\bprescri(be|ption|bed)\b/i.test(trimmedSentence)) {
+          keywordResults.push(`PRESCRIPTION: ${trimmedSentence}`);
+        } else if (/\bdiagnosis\b/i.test(trimmedSentence)) {
+          keywordResults.push(`DIAGNOSIS: ${trimmedSentence}`);
+        } else if (/\bfollow[\s-]up\b/i.test(trimmedSentence)) {
+          keywordResults.push(`FOLLOW-UP: ${trimmedSentence}`);
+        } else if (/\binstruction/i.test(trimmedSentence)) {
+          keywordResults.push(`INSTRUCTIONS: ${trimmedSentence}`);
+        } else if (/\b(take|dosage|mg|tablet|capsule|pill)/i.test(trimmedSentence)) {
+          keywordResults.push(`MEDICATION: ${trimmedSentence}`);
+        } else {
+          keywordResults.push(trimmedSentence); // Other medical-related sentences
+        }
+      }
+    });
+    
+    return keywordResults.join('. ');
+  };
   
   // Initialize speech recognition
   useEffect(() => {
-    // Cast window to our extended interface
-    const windowWithSpeech = window as IWindow;
-    
-    if (windowWithSpeech.SpeechRecognition || windowWithSpeech.webkitSpeechRecognition) {
-      const SpeechRecognitionAPI = windowWithSpeech.SpeechRecognition || windowWithSpeech.webkitSpeechRecognition;
-      
-      if (SpeechRecognitionAPI) {
-        recognitionRef.current = new SpeechRecognitionAPI();
-        recognitionRef.current.continuous = true;
-        recognitionRef.current.interimResults = true;
-        
-        recognitionRef.current.onresult = (event: any) => {
-          let interimTranscript = '';
-          let finalTranscript = '';
-          
-          for (let i = event.resultIndex; i < event.results.length; ++i) {
-            if (event.results[i].isFinal) {
-              finalTranscript += event.results[i][0].transcript;
-            } else {
-              interimTranscript += event.results[i][0].transcript;
-            }
-          }
-          
-          setTranscript(prev => prev + finalTranscript + ' ');
-        };
-        
-        recognitionRef.current.onerror = (event: any) => {
-          console.error('Speech recognition error', event.error);
-          if (event.error === 'not-allowed') {
-            toast.error("Microphone access was denied. Please allow microphone access to use transcription.");
-          }
-        };
-      }
-    } else {
+    if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
       toast.error("Speech recognition is not supported in this browser");
+      return;
     }
+    
+    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognitionRef.current = new SpeechRecognitionAPI();
+    recognitionRef.current.continuous = true;
+    recognitionRef.current.interimResults = true;
+    
+    recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
+      let interimTranscript = '';
+      let finalTranscript = '';
+      
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          finalTranscript += event.results[i][0].transcript;
+          fullTranscriptRef.current += event.results[i][0].transcript + ' ';
+        } else {
+          interimTranscript += event.results[i][0].transcript;
+        }
+      }
+      
+      if (finalTranscript) {
+        // Process the transcript to extract medical keywords
+        const keywords = extractKeywords(fullTranscriptRef.current);
+        setProcessedTranscript(keywords);
+      }
+      
+      // Keep the original transcript for reference
+      setTranscript(fullTranscriptRef.current);
+    };
+    
+    recognitionRef.current.onerror = (event: Event) => {
+      console.error('Speech recognition error', event);
+      if (event.type === 'error' && 'error' in event && event.error === 'not-allowed') {
+        toast.error("Microphone access was denied. Please allow microphone access to use transcription.");
+      }
+    };
     
     return () => {
       if (recognitionRef.current) {
@@ -89,7 +146,9 @@ const PrescriptionRecorder = () => {
   
   const startRecording = async () => {
     audioChunksRef.current = [];
+    fullTranscriptRef.current = '';
     setTranscript('');
+    setProcessedTranscript('');
     
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -159,7 +218,7 @@ const PrescriptionRecorder = () => {
         url: audioURL,
         date: formattedDate,
         doctor: doctorName,
-        transcript: transcript || undefined
+        transcript: processedTranscript || transcript || undefined
       };
       
       setRecordings(prev => [...prev, newRecording]);
@@ -167,6 +226,7 @@ const PrescriptionRecorder = () => {
       setAudioURL(null);
       setRecordingStatus('idle');
       setTranscript('');
+      setProcessedTranscript('');
       toast.success(`Recording "${recordingName}" saved successfully`);
     } else {
       toast.error("Please enter a name for the recording");
@@ -187,7 +247,7 @@ const PrescriptionRecorder = () => {
       <div className="bg-secondary/30 rounded-lg p-5 mb-6">
         <h4 className="font-medium mb-3">Record a Medical Consultation</h4>
         <p className="text-sm text-muted-foreground mb-4">
-          Record important details from your doctor visits. These recordings are securely stored in your personal health record.
+          Record important details from your doctor visits. Only prescription-related keywords will be highlighted in the transcript.
         </p>
         
         <div className="space-y-4">
@@ -205,7 +265,7 @@ const PrescriptionRecorder = () => {
               <div className="flex items-center">
                 <span className="inline-block w-3 h-3 bg-red-500 rounded-full mr-2 animate-pulse"></span>
                 <span className="text-sm text-red-500">
-                  {isTranscribing ? 'Recording & Transcribing...' : 'Recording...'}
+                  {isTranscribing ? 'Recording & Extracting Keywords...' : 'Recording...'}
                 </span>
               </div>
             )}
@@ -214,18 +274,30 @@ const PrescriptionRecorder = () => {
           {isTranscribing && (
             <div className="flex items-center text-sm text-muted-foreground">
               <Type size={16} className="mr-2" />
-              Speech-to-text is active
+              Keywords extraction is active
             </div>
           )}
           
-          {transcript && (
+          {processedTranscript && (
             <div className="mt-4">
-              <h5 className="text-sm font-medium mb-2">Transcript:</h5>
+              <h5 className="text-sm font-medium mb-2">Prescription Keywords:</h5>
+              <Textarea 
+                value={processedTranscript} 
+                onChange={(e) => setProcessedTranscript(e.target.value)}
+                className="min-h-[100px] text-sm"
+                placeholder="Prescription keywords will appear here..."
+              />
+            </div>
+          )}
+          
+          {transcript && !processedTranscript && (
+            <div className="mt-4">
+              <h5 className="text-sm font-medium mb-2">Full Transcript:</h5>
               <Textarea 
                 value={transcript} 
                 onChange={(e) => setTranscript(e.target.value)}
-                className="min-h-[100px] text-sm"
-                placeholder="Transcript will appear here..."
+                className="min-h-[100px] text-sm opacity-60"
+                placeholder="No medical keywords detected in the transcript..."
               />
             </div>
           )}
@@ -268,7 +340,7 @@ const PrescriptionRecorder = () => {
                     <div>
                       {recording.name}
                       {recording.transcript && (
-                        <p className="text-xs text-muted-foreground line-clamp-1 mt-1">
+                        <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
                           {recording.transcript}
                         </p>
                       )}
