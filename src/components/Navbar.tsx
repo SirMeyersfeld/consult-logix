@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { 
   LogIn, LogOut, Menu, X, User, Calendar, Activity, LayoutDashboard, 
   FileText, Stethoscope, Pill, Microscope, MessageCircle, BarChart, 
-  Settings
+  Settings, Heart, Syringe, File, Video
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { toast } from 'sonner';
@@ -69,7 +69,9 @@ const Navbar = () => {
         { path: '/consultation', label: 'Consultation', icon: <MessageCircle className="h-4 w-4" /> },
         { path: '/prescription', label: 'Prescription', icon: <FileText className="h-4 w-4" /> },
         { path: '/appointments', label: 'Appointments', icon: <Calendar className="h-4 w-4" /> },
+        { path: '/telemedicine', label: 'Telemedicine', icon: <Video className="h-4 w-4" /> },
         { path: '/activity', label: 'Activity', icon: <Activity className="h-4 w-4" /> },
+        { path: '/documents', label: 'Documents', icon: <File className="h-4 w-4" /> },
       ];
     } else if (subscriptionType === 'patient') {
       return [
@@ -78,6 +80,10 @@ const Navbar = () => {
         { path: '/appointments', label: 'Appointments', icon: <Calendar className="h-4 w-4" /> },
         { path: '/medications', label: 'Medications', icon: <Pill className="h-4 w-4" /> },
         { path: '/lab-results', label: 'Lab Results', icon: <Microscope className="h-4 w-4" /> },
+        { path: '/health-tracker', label: 'Health Tracker', icon: <Heart className="h-4 w-4" /> },
+        { path: '/vaccinations', label: 'Vaccinations', icon: <Syringe className="h-4 w-4" /> },
+        { path: '/telemedicine', label: 'Telemedicine', icon: <Video className="h-4 w-4" /> },
+        { path: '/documents', label: 'Documents', icon: <File className="h-4 w-4" /> },
       ];
     }
     
@@ -135,7 +141,7 @@ const Navbar = () => {
             </NavLink>
           ))}
           
-          {isAuthenticated && authenticatedNavItems.map((item) => (
+          {isAuthenticated && authenticatedNavItems.slice(0, 5).map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
@@ -212,7 +218,7 @@ const Navbar = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.2 }}
-          className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg p-6 z-50"
+          className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg p-6 z-50 max-h-[80vh] overflow-y-auto"
         >
           <div className="flex flex-col space-y-4">
             {navItems.map((item) => (

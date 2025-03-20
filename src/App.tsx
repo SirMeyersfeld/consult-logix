@@ -22,6 +22,10 @@ import Medications from "./pages/Medications";
 import AddMedication from "./pages/AddMedication";
 import MedicationDetails from "./pages/MedicationDetails";
 import LabResults from "./pages/LabResults";
+import Telemedicine from "./pages/Telemedicine";
+import HealthTracker from "./pages/HealthTracker";
+import Vaccinations from "./pages/Vaccinations";
+import Documents from "./pages/Documents";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +46,10 @@ const App = () => (
           <Route path="/add-medication" element={<AddMedication />} />
           <Route path="/medication-details/:id" element={<MedicationDetails />} />
           <Route path="/lab-results" element={<LabResults />} />
+          <Route path="/telemedicine" element={<Telemedicine />} />
+          <Route path="/health-tracker" element={<HealthTracker />} />
+          <Route path="/vaccinations" element={<Vaccinations />} />
+          <Route path="/documents" element={<Documents />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/subscription" element={<Subscription />} />
