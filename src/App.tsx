@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Index from './pages/Index';
@@ -23,6 +24,8 @@ import Subscription from './pages/Subscription';
 import MediPort from './pages/MediPort';
 import NotFound from './pages/NotFound';
 import DoctorProfile from './pages/DoctorProfile';
+import HealthTipsPage from './pages/HealthTipsPage';
+import MedicationRemindersPage from './pages/MedicationRemindersPage';
 import { Toaster } from "@/components/ui/sonner"
 
 function App() {
@@ -54,6 +57,8 @@ function App() {
           <Route path="/add-medication" element={<AddMedication />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/mediport" element={<MediPort />} />
+          <Route path="/health-tips" element={<HealthTipsPage />} />
+          <Route path="/medication-reminders" element={<MedicationRemindersPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

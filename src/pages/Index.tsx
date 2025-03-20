@@ -7,7 +7,7 @@ import AnimatedTransition from '@/components/AnimatedTransition';
 import HealthTips from '@/components/HealthTips';
 import MedicationReminder from '@/components/MedicationReminder';
 import UpcomingAppointments from '@/components/UpcomingAppointments';
-import { CheckCircle, Award, Shield, HeartPulse, ArrowRight, Stars, Users, FileText } from 'lucide-react';
+import { CheckCircle, Award, Shield, HeartPulse, ArrowRight, Stars, Users, FileText, ChevronRight } from 'lucide-react';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -139,15 +139,30 @@ const Index = () => {
         {isAuthenticated && (
           <section className="mt-16 mb-20">
             <AnimatedTransition type="fadeInUp" delay={0.2}>
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold">Your Health Dashboard</h2>
-                <p className="text-muted-foreground">Quick access to your important health information</p>
+              <div className="mb-8 flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold">Your Health Dashboard</h2>
+                  <p className="text-muted-foreground">Quick access to your important health information</p>
+                </div>
               </div>
             </AnimatedTransition>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <AnimatedTransition type="fadeInUp" delay={0.3}>
-                <MedicationReminder />
+                <div className="relative">
+                  <MedicationReminder />
+                  <div className="absolute top-2 right-2">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-8 w-8 p-0 rounded-full"
+                      onClick={() => navigate('/medication-reminders')}
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                      <span className="sr-only">View all medication reminders</span>
+                    </Button>
+                  </div>
+                </div>
               </AnimatedTransition>
               
               <AnimatedTransition type="fadeInUp" delay={0.4}>
@@ -155,7 +170,20 @@ const Index = () => {
               </AnimatedTransition>
               
               <AnimatedTransition type="fadeInUp" delay={0.5}>
-                <HealthTips />
+                <div className="relative">
+                  <HealthTips />
+                  <div className="absolute top-2 right-2">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-8 w-8 p-0 rounded-full"
+                      onClick={() => navigate('/health-tips')}
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                      <span className="sr-only">View all health tips</span>
+                    </Button>
+                  </div>
+                </div>
               </AnimatedTransition>
             </div>
           </section>

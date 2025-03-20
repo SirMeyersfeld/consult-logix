@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { 
   LogIn, LogOut, Menu, X, User, Calendar, Activity, LayoutDashboard, 
   FileText, Stethoscope, Pill, Microscope, MessageCircle, BarChart, 
-  Settings, Heart, Syringe, File, Video
+  Settings, Heart, Syringe, File, Video, Lightbulb, Bell
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { toast } from 'sonner';
@@ -79,6 +79,8 @@ const Navbar = () => {
         { path: '/medical-records', label: 'Records', icon: <FileText className="h-4 w-4" /> },
         { path: '/appointments', label: 'Appointments', icon: <Calendar className="h-4 w-4" /> },
         { path: '/medications', label: 'Medications', icon: <Pill className="h-4 w-4" /> },
+        { path: '/medication-reminders', label: 'Reminders', icon: <Bell className="h-4 w-4" /> },
+        { path: '/health-tips', label: 'Health Tips', icon: <Lightbulb className="h-4 w-4" /> },
         { path: '/lab-results', label: 'Lab Results', icon: <Microscope className="h-4 w-4" /> },
         { path: '/health-tracker', label: 'Health Tracker', icon: <Heart className="h-4 w-4" /> },
         { path: '/vaccinations', label: 'Vaccinations', icon: <Syringe className="h-4 w-4" /> },
