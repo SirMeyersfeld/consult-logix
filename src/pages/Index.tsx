@@ -4,10 +4,14 @@ import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import Navbar from '@/components/Navbar';
 import AnimatedTransition from '@/components/AnimatedTransition';
+import HealthTips from '@/components/HealthTips';
+import MedicationReminder from '@/components/MedicationReminder';
+import UpcomingAppointments from '@/components/UpcomingAppointments';
 import { CheckCircle, Award, Shield, HeartPulse, ArrowRight, Stars, Users, FileText } from 'lucide-react';
 
 const Index = () => {
   const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
   
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-background/60">
@@ -130,6 +134,32 @@ const Index = () => {
             </div>
           </AnimatedTransition>
         </div>
+        
+        {/* Features Dashboard for Authenticated Users */}
+        {isAuthenticated && (
+          <section className="mt-16 mb-20">
+            <AnimatedTransition type="fadeInUp" delay={0.2}>
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold">Your Health Dashboard</h2>
+                <p className="text-muted-foreground">Quick access to your important health information</p>
+              </div>
+            </AnimatedTransition>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <AnimatedTransition type="fadeInUp" delay={0.3}>
+                <MedicationReminder />
+              </AnimatedTransition>
+              
+              <AnimatedTransition type="fadeInUp" delay={0.4}>
+                <UpcomingAppointments />
+              </AnimatedTransition>
+              
+              <AnimatedTransition type="fadeInUp" delay={0.5}>
+                <HealthTips />
+              </AnimatedTransition>
+            </div>
+          </section>
+        )}
         
         {/* Statistics Section */}
         <section className="mt-24 py-12 bg-gradient-to-r from-primary/5 to-primary/10 rounded-2xl">
