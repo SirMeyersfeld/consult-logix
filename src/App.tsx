@@ -26,6 +26,7 @@ import NotFound from './pages/NotFound';
 import DoctorProfile from './pages/DoctorProfile';
 import HealthTipsPage from './pages/HealthTipsPage';
 import MedicationRemindersPage from './pages/MedicationRemindersPage';
+import HealthDashboard from './pages/HealthDashboard';
 import { Toaster } from "@/components/ui/sonner"
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/health-dashboard" element={<HealthDashboard />} />
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/medications" element={<Medications />} />
           <Route path="/medication-details/:id" element={<MedicationDetails />} />

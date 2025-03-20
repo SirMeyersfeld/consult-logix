@@ -1,4 +1,3 @@
-
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
@@ -135,57 +134,22 @@ const Index = () => {
           </AnimatedTransition>
         </div>
         
-        {/* Features Dashboard for Authenticated Users */}
+        {/* Link to Health Dashboard for Authenticated Users */}
         {isAuthenticated && (
           <section className="mt-16 mb-20">
             <AnimatedTransition type="fadeInUp" delay={0.2}>
-              <div className="mb-8 flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold">Your Health Dashboard</h2>
-                  <p className="text-muted-foreground">Quick access to your important health information</p>
-                </div>
+              <div className="mb-8 p-6 bg-primary/5 rounded-xl border border-primary/10 text-center">
+                <h2 className="text-2xl font-bold mb-2">Want to see your health information?</h2>
+                <p className="text-muted-foreground mb-4">Access your health dashboard to view your medication reminders, upcoming appointments, and health tips.</p>
+                <Button 
+                  onClick={() => navigate('/health-dashboard')}
+                  variant="default"
+                  className="bg-primary hover:bg-primary/90"
+                >
+                  Go to Health Dashboard
+                </Button>
               </div>
             </AnimatedTransition>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <AnimatedTransition type="fadeInUp" delay={0.3}>
-                <div className="relative">
-                  <MedicationReminder />
-                  <div className="absolute top-2 right-2">
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="h-8 w-8 p-0 rounded-full"
-                      onClick={() => navigate('/medication-reminders')}
-                    >
-                      <ChevronRight className="h-4 w-4" />
-                      <span className="sr-only">View all medication reminders</span>
-                    </Button>
-                  </div>
-                </div>
-              </AnimatedTransition>
-              
-              <AnimatedTransition type="fadeInUp" delay={0.4}>
-                <UpcomingAppointments />
-              </AnimatedTransition>
-              
-              <AnimatedTransition type="fadeInUp" delay={0.5}>
-                <div className="relative">
-                  <HealthTips />
-                  <div className="absolute top-2 right-2">
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="h-8 w-8 p-0 rounded-full"
-                      onClick={() => navigate('/health-tips')}
-                    >
-                      <ChevronRight className="h-4 w-4" />
-                      <span className="sr-only">View all health tips</span>
-                    </Button>
-                  </div>
-                </div>
-              </AnimatedTransition>
-            </div>
           </section>
         )}
         

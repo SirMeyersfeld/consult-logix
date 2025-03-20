@@ -76,6 +76,7 @@ const Navbar = () => {
     } else if (subscriptionType === 'patient') {
       return [
         { path: '/mediport', label: 'MediPort', icon: <Stethoscope className="h-4 w-4" /> },
+        { path: '/health-dashboard', label: 'Health Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
         { path: '/medical-records', label: 'Records', icon: <FileText className="h-4 w-4" /> },
         { path: '/appointments', label: 'Appointments', icon: <Calendar className="h-4 w-4" /> },
         { path: '/medications', label: 'Medications', icon: <Pill className="h-4 w-4" /> },
