@@ -61,6 +61,14 @@ const Telemedicine = () => {
     navigate('/appointments');
   };
 
+  const handleTabChange = (tabValue: string) => {
+    // Find the tab trigger element and programmatically select it
+    const tabElement = document.querySelector(`[value="${tabValue}"]`) as HTMLElement | null;
+    if (tabElement) {
+      tabElement.click();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-background/60">
       <Navbar />
@@ -191,7 +199,7 @@ const Telemedicine = () => {
               <Calendar className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
               <h3 className="text-lg font-medium mb-2">No Upcoming Sessions</h3>
               <p className="text-muted-foreground mb-4">You don't have any upcoming telemedicine sessions scheduled.</p>
-              <Button onClick={() => document.querySelector('[value="doctors"]')?.click()}>Find a Doctor</Button>
+              <Button onClick={() => handleTabChange("doctors")}>Find a Doctor</Button>
             </div>
           </TabsContent>
           
@@ -200,7 +208,7 @@ const Telemedicine = () => {
               <Clock className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
               <h3 className="text-lg font-medium mb-2">No Past Sessions</h3>
               <p className="text-muted-foreground mb-4">You haven't had any telemedicine sessions yet.</p>
-              <Button onClick={() => document.querySelector('[value="doctors"]')?.click()}>Find a Doctor</Button>
+              <Button onClick={() => handleTabChange("doctors")}>Find a Doctor</Button>
             </div>
           </TabsContent>
         </Tabs>
