@@ -69,6 +69,10 @@ const Telemedicine = () => {
     }
   };
 
+  const handleViewDoctorProfile = (doctorId: number) => {
+    navigate(`/doctor/${doctorId}`);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-background/60">
       <Navbar />
@@ -107,7 +111,10 @@ const Telemedicine = () => {
                 {filteredDoctors.map((doctor) => (
                   <Card key={doctor.id} className="p-5 border-border/50 shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex items-start gap-4">
-                      <div className="w-16 h-16 rounded-full overflow-hidden">
+                      <div 
+                        className="w-16 h-16 rounded-full overflow-hidden cursor-pointer"
+                        onClick={() => handleViewDoctorProfile(doctor.id)}
+                      >
                         <img 
                           src={doctor.image} 
                           alt={doctor.name} 
@@ -115,7 +122,12 @@ const Telemedicine = () => {
                         />
                       </div>
                       <div>
-                        <h3 className="font-medium">{doctor.name}</h3>
+                        <h3 
+                          className="font-medium cursor-pointer hover:text-primary transition-colors"
+                          onClick={() => handleViewDoctorProfile(doctor.id)}
+                        >
+                          {doctor.name}
+                        </h3>
                         <p className="text-sm text-muted-foreground">{doctor.specialty}</p>
                         <div className="flex items-center mt-1">
                           <span className="text-sm font-medium text-amber-500">{doctor.rating}</span>
@@ -173,12 +185,19 @@ const Telemedicine = () => {
                       </Button>
                     </div>
                     
-                    <Button 
-                      className="mt-3 w-full"
-                      onClick={() => handleBookAppointment(doctor.id, doctor.name)}
-                    >
-                      Book Appointment
-                    </Button>
+                    <div className="mt-3 grid grid-cols-2 gap-2">
+                      <Button 
+                        onClick={() => handleViewDoctorProfile(doctor.id)}
+                        variant="outline"
+                      >
+                        View Profile
+                      </Button>
+                      <Button 
+                        onClick={() => handleBookAppointment(doctor.id, doctor.name)}
+                      >
+                        Book Appointment
+                      </Button>
+                    </div>
                   </Card>
                 ))}
               </div>
