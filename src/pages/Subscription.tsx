@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
@@ -47,14 +46,14 @@ const Subscription = () => {
               className="mb-3"
             >
               <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-2">
-                Premium Plans
+                Subscription Plans
               </span>
             </motion.div>
             <h1 className="text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
               Elevate Your Healthcare Experience
             </h1>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Join thousands of users who have transformed their healthcare journey with our premium subscription plans.
+              Join thousands of users who have transformed their healthcare journey with our subscription plans.
             </p>
           </div>
           
