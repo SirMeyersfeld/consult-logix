@@ -1,299 +1,87 @@
-
-import { useState, useEffect } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { cn } from "@/lib/utils";
-import { 
-  LogIn, LogOut, Menu, X, User, Calendar, Activity, LayoutDashboard, 
-  FileText, Stethoscope, Pill, Microscope, MessageCircle, BarChart, 
-  Settings, Heart, Syringe, File, Video, Lightbulb, Bell
-} from 'lucide-react';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { toast } from 'sonner';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { Menu } from "lucide-react"
 
 const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const location = useLocation();
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userEmail, setUserEmail] = useState('');
-  const [subscriptionType, setSubscriptionType] = useState<'doctor' | 'patient' | null>(null);
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
 
-  useEffect(() => {
-    const authStatus = localStorage.getItem('isAuthenticated') === 'true';
-    const email = localStorage.getItem('userEmail') || '';
-    const plan = localStorage.getItem('subscriptionPlan') as 'doctor' | 'patient' | null;
-    
-    setIsAuthenticated(authStatus);
-    setUserEmail(email);
-    setSubscriptionType(plan);
-  }, [location.pathname]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const offset = window.scrollY;
-      if (offset > 10) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  const handleSignOut = () => {
-    localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('userName');
-    setIsAuthenticated(false);
-    setUserEmail('');
-    toast.success('You have been signed out');
-    navigate('/');
-  };
-
-  const navItems = [
-    { path: '/', label: 'Home' },
+  const navigationLinks = [
+    { name: "Home", href: "/" },
+    { name: "Dashboard", href: "/dashboard" },
+    { name: "Health Dashboard", href: "/health-dashboard" },
+    { name: "Health Tips", href: "/health-tips" },
+    { name: "Medication Reminders", href: "/medication-reminders" },
+    { name: "About", href: "/about" },
   ];
 
-  const getDynamicNavItems = () => {
-    const baseItems = [];
-    
-    if (subscriptionType === 'doctor') {
-      return [
-        { path: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
-        { path: '/consultation', label: 'Consultation', icon: <MessageCircle className="h-4 w-4" /> },
-        { path: '/prescription', label: 'Prescription', icon: <FileText className="h-4 w-4" /> },
-        { path: '/appointments', label: 'Appointments', icon: <Calendar className="h-4 w-4" /> },
-        { path: '/telemedicine', label: 'Telemedicine', icon: <Video className="h-4 w-4" /> },
-        { path: '/activity', label: 'Activity', icon: <Activity className="h-4 w-4" /> },
-        { path: '/documents', label: 'Documents', icon: <File className="h-4 w-4" /> },
-      ];
-    } else if (subscriptionType === 'patient') {
-      return [
-        { path: '/mediport', label: 'MediPort', icon: <Stethoscope className="h-4 w-4" /> },
-        { path: '/health-dashboard', label: 'Health Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
-        { path: '/medical-records', label: 'Records', icon: <FileText className="h-4 w-4" /> },
-        { path: '/appointments', label: 'Appointments', icon: <Calendar className="h-4 w-4" /> },
-        { path: '/medications', label: 'Medications', icon: <Pill className="h-4 w-4" /> },
-        { path: '/medication-reminders', label: 'Reminders', icon: <Bell className="h-4 w-4" /> },
-        { path: '/health-tips', label: 'Health Tips', icon: <Lightbulb className="h-4 w-4" /> },
-        { path: '/lab-results', label: 'Lab Results', icon: <Microscope className="h-4 w-4" /> },
-        { path: '/health-tracker', label: 'Health Tracker', icon: <Heart className="h-4 w-4" /> },
-        { path: '/vaccinations', label: 'Vaccinations', icon: <Syringe className="h-4 w-4" /> },
-        { path: '/telemedicine', label: 'Telemedicine', icon: <Video className="h-4 w-4" /> },
-        { path: '/documents', label: 'Documents', icon: <File className="h-4 w-4" /> },
-      ];
-    }
-    
-    return baseItems;
-  };
-
-  const authenticatedNavItems = getDynamicNavItems();
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
-
   return (
-    <nav
-      className={cn(
-        "fixed top-0 w-full z-50 transition-all duration-300 ease-in-out px-6 md:px-10 py-4",
-        scrolled 
-          ? "bg-white bg-opacity-90 backdrop-blur-md shadow-sm" 
-          : "bg-transparent"
-      )}
-    >
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <NavLink 
-          to="/" 
-          className="flex items-center gap-2"
-        >
+    <div className="bg-background/90 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+      <div className="container py-4 px-4 mx-auto flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-2">
           <div className="relative w-8 h-8 flex items-center justify-center rounded-full bg-primary/10">
-            <div className="absolute w-3 h-3 rounded-full bg-primary animate-pulse-subtle" />
+            <div className="absolute w-3 h-3 rounded-full bg-primary" />
           </div>
           <span className="text-xl font-semibold">MediLog</span>
-        </NavLink>
+        </Link>
 
-        <div className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) => cn(
-                "relative text-sm font-medium transition-all duration-200 hover:text-primary",
-                isActive ? "text-primary" : "text-foreground/80"
-              )}
-            >
-              {({ isActive }) => (
-                <>
-                  {item.label}
-                  {isActive && (
-                    <motion.div
-                      layoutId="nav-indicator"
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                    />
-                  )}
-                </>
-              )}
-            </NavLink>
+        <div className="hidden md:flex items-center space-x-6">
+          {navigationLinks.map((link) => (
+            <Link key={link.name} to={link.href} className="text-sm font-medium text-gray-700 hover:text-primary transition-colors">{link.name}</Link>
           ))}
-          
-          {isAuthenticated && authenticatedNavItems.slice(0, 5).map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) => cn(
-                "relative text-sm font-medium transition-all duration-200 hover:text-primary",
-                isActive ? "text-primary" : "text-foreground/80"
-              )}
-            >
-              {({ isActive }) => (
-                <>
-                  {item.label}
-                  {isActive && (
-                    <motion.div
-                      layoutId={`nav-indicator-${item.path}`}
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                    />
-                  )}
-                </>
-              )}
-            </NavLink>
-          ))}
-        </div>
-
-        <div className="hidden md:flex items-center gap-4">
-          {isAuthenticated ? (
-            <div className="flex items-center gap-4">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => navigate('/profile')}
-                className="flex items-center gap-1"
-              >
-                <User className="w-4 h-4" />
-                Profile
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={handleSignOut}
-                className="flex items-center gap-1"
-              >
-                <LogOut className="w-4 h-4" />
-                Sign Out
-              </Button>
-            </div>
+          {!isAuthenticated ? (
+            <>
+              <Button variant="outline" size="sm" onClick={() => navigate('/sign-in')}>Sign In</Button>
+              <Button size="sm" onClick={() => navigate('/sign-up')}>Sign Up</Button>
+            </>
           ) : (
-            <Button 
-              onClick={() => navigate('/sign-in')}
-              className="bg-primary text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 flex items-center gap-1"
-            >
-              <LogIn className="w-4 h-4" />
-              Sign In
-            </Button>
+            <Button size="sm" onClick={() => {
+              localStorage.removeItem('isAuthenticated');
+              navigate('/sign-in');
+            }}>Sign Out</Button>
           )}
         </div>
 
-        <button 
-          className="block md:hidden" 
-          onClick={toggleMobileMenu}
-          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-        >
-          {mobileMenuOpen ? (
-            <X className="w-6 h-6" />
-          ) : (
-            <Menu className="w-6 h-6" />
-          )}
-        </button>
-      </div>
-
-      {mobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.2 }}
-          className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg p-6 z-50 max-h-[80vh] overflow-y-auto"
-        >
-          <div className="flex flex-col space-y-4">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) => cn(
-                  "text-base py-2 font-medium transition-all duration-200 hover:text-primary",
-                  isActive ? "text-primary" : "text-foreground/80"
-                )}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {item.label}
-              </NavLink>
-            ))}
-            
-            {isAuthenticated && authenticatedNavItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) => cn(
-                  "text-base py-2 font-medium transition-all duration-200 hover:text-primary flex items-center gap-2",
-                  isActive ? "text-primary" : "text-foreground/80"
-                )}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {item.icon}
-                {item.label}
-              </NavLink>
-            ))}
-            
-            <div className="pt-4 border-t border-gray-100">
-              {isAuthenticated ? (
-                <div className="space-y-3">
-                  <NavLink
-                    to="/profile"
-                    className="flex items-center gap-2 py-2 text-base font-medium text-foreground/80 hover:text-primary"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <User className="w-4 h-4" />
-                    Your Profile
-                  </NavLink>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    onClick={() => {
-                      handleSignOut();
-                      setMobileMenuOpen(false);
-                    }}
-                    className="w-full justify-center"
-                  >
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Sign Out
-                  </Button>
-                </div>
+        <Sheet>
+          <SheetTrigger className="md:hidden">
+            <Menu />
+          </SheetTrigger>
+          <SheetContent side="right" className="sm:w-2/3 md:w-1/2">
+            <SheetHeader>
+              <SheetTitle>Menu</SheetTitle>
+              <SheetDescription>
+                Explore MediLog and manage your health.
+              </SheetDescription>
+            </SheetHeader>
+            <div className="flex flex-col space-y-4 mt-6">
+              {navigationLinks.map((link) => (
+                <Link key={link.name} to={link.href} className="text-lg font-medium text-gray-700 hover:text-primary transition-colors block py-2">{link.name}</Link>
+              ))}
+              {!isAuthenticated ? (
+                <>
+                  <Button variant="outline" onClick={() => navigate('/sign-in')} className="w-full">Sign In</Button>
+                  <Button onClick={() => navigate('/sign-up')} className="w-full">Sign Up</Button>
+                </>
               ) : (
-                <Button 
-                  onClick={() => {
-                    navigate('/sign-in');
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full justify-center"
-                >
-                  <LogIn className="w-4 h-4 mr-2" />
-                  Sign In
-                </Button>
+                <Button onClick={() => {
+                  localStorage.removeItem('isAuthenticated');
+                  navigate('/sign-in');
+                }} className="w-full">Sign Out</Button>
               )}
             </div>
-          </div>
-        </motion.div>
-      )}
-    </nav>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </div>
   );
 };
 

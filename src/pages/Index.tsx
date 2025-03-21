@@ -7,6 +7,7 @@ import HealthTips from '@/components/HealthTips';
 import MedicationReminder from '@/components/MedicationReminder';
 import UpcomingAppointments from '@/components/UpcomingAppointments';
 import { CheckCircle, Award, Shield, HeartPulse, ArrowRight, Stars, Users, FileText, ChevronRight } from 'lucide-react';
+import FooterLinks from '@/components/FooterLinks';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -495,44 +496,7 @@ const Index = () => {
       
       <footer className="bg-secondary/30 py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <div className="flex items-center gap-2">
-                <div className="relative w-8 h-8 flex items-center justify-center rounded-full bg-primary/10">
-                  <div className="absolute w-3 h-3 rounded-full bg-primary" />
-                </div>
-                <span className="text-xl font-semibold">MediLog</span>
-              </div>
-              <p className="text-sm text-muted-foreground mt-2">Modernizing healthcare, one consultation at a time.</p>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-4">Product</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Features</a></li>
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Pricing</a></li>
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Security</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-4">Company</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">About Us</a></li>
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Careers</a></li>
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-4">Legal</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Compliance</a></li>
-              </ul>
-            </div>
-          </div>
+          <FooterLinks />
           
           <div className="pt-8 border-t border-border text-center">
             <p className="text-sm text-muted-foreground">© 2024 MediLog. All rights reserved.</p>
