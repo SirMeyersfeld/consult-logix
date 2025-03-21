@@ -38,6 +38,36 @@
     --radius: 0.75rem;
   }
 
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 196 83% 55%;
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 196 83% 55%;
+  }
+
   * {
     @apply border-border;
   }
@@ -128,6 +158,19 @@
       filter: blur(0);
     }
   }
+  
+  /* Gradient animations */
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 }
 
 /* Custom component styles */
@@ -142,5 +185,21 @@
   
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+  }
+  
+  .gradient-border {
+    @apply relative border-transparent before:absolute before:inset-0 before:p-[1px] before:rounded-[inherit] before:bg-gradient-to-r before:from-primary/80 before:to-accent/80 before:-z-10;
+  }
+  
+  .premium-card {
+    @apply relative border-primary/20 bg-gradient-to-br from-primary/5 to-accent/5 shadow-lg hover:shadow-xl transition-all duration-300;
+  }
+  
+  .button-glow {
+    @apply relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-primary/40 before:to-accent/40 before:blur-xl before:opacity-0 hover:before:opacity-100 before:transition-opacity;
+  }
+  
+  .hover-lift {
+    @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-md;
   }
 }

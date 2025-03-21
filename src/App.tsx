@@ -30,11 +30,10 @@ import HealthDashboard from './pages/HealthDashboard';
 import { Toaster } from "@/components/ui/sonner"
 
 function App() {
-
   return (
     <Router>
-      <Toaster />
-      <div className="relative">
+      <Toaster position="top-right" richColors closeButton />
+      <div className="min-h-screen bg-background font-sans antialiased">
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/sign-in" element={<SignIn />} />
