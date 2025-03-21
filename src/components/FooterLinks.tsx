@@ -13,10 +13,6 @@ const FooterLinks = () => {
           <span className="text-xl font-semibold">MediLog</span>
         </div>
         <p className="text-sm text-muted-foreground mt-2">Modernizing healthcare, one consultation at a time.</p>
-        <div className="mt-4 text-sm text-muted-foreground">
-          <p>Founded by Liam Meyersfeld</p>
-          <p>Co-founded by Dylan Friedman</p>
-        </div>
       </div>
       
       <div>
