@@ -34,7 +34,8 @@ const HealthDashboard = () => {
       target: 10000, 
       progress: 84, 
       icon: <Activity className="h-5 w-5 text-blue-500" />,
-      trend: "up" 
+      trend: "up",
+      action: () => navigate('/health-tracker')
     },
     { 
       name: "Heart Rate", 
@@ -42,7 +43,8 @@ const HealthDashboard = () => {
       unit: "bpm", 
       status: "normal", 
       icon: <Heart className="h-5 w-5 text-red-500" />,
-      trend: "stable" 
+      trend: "stable",
+      action: () => navigate('/health-tracker')
     },
     { 
       name: "Sleep", 
@@ -51,7 +53,8 @@ const HealthDashboard = () => {
       target: 8, 
       progress: 93, 
       icon: <Flame className="h-5 w-5 text-orange-500" />,
-      trend: "up" 
+      trend: "up",
+      action: () => navigate('/health-tracker')
     },
     { 
       name: "Vaccinations", 
@@ -77,7 +80,7 @@ const HealthDashboard = () => {
         <AnimatedTransition type="fadeInUp" delay={0.3}>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             {healthMetrics.map((metric, index) => (
-              <Card key={index} className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
+              <Card key={index} className="border-border/40 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={metric.action}>
                 <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
                   <CardTitle className="text-sm font-medium">{metric.name}</CardTitle>
                   <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
@@ -114,7 +117,10 @@ const HealthDashboard = () => {
                       variant="ghost" 
                       size="sm" 
                       className="p-0 h-6 text-muted-foreground hover:text-primary"
-                      onClick={metric.action}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        metric.action();
+                      }}
                     >
                       View details <ArrowRight className="ml-1 h-3 w-3" />
                     </Button>

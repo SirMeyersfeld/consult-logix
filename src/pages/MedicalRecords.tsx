@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileText, Download, Calendar, Activity, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const MedicalRecords = () => {
   const navigate = useNavigate();
@@ -21,6 +22,20 @@ const MedicalRecords = () => {
     { id: 6, title: "Consultation Recording", date: "2024-03-12", doctor: "Dr. Michael Lee", category: "Consultation", type: "recordings" },
     { id: 7, title: "Follow-up Recording", date: "2024-02-18", doctor: "Dr. Sarah Johnson", category: "Follow-up", type: "recordings" }
   ];
+
+  const handleDownload = (recordId) => {
+    toast.success(`Downloading record #${recordId}`);
+    // In a real app, this would trigger a file download
+  };
+
+  const handleViewDetails = (recordId) => {
+    navigate(`/record-details/${recordId}`);
+  };
+
+  const handleListen = (recordId) => {
+    toast.success(`Playing recording #${recordId}`);
+    // In a real app, this would play the audio recording
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-background/60">
@@ -76,7 +91,7 @@ const MedicalRecords = () => {
                         variant="outline" 
                         size="sm" 
                         className="flex items-center gap-1"
-                        onClick={() => navigate(`/record-details/${record.id}`)}
+                        onClick={() => handleViewDetails(record.id)}
                       >
                         View Details
                       </Button>
@@ -84,6 +99,7 @@ const MedicalRecords = () => {
                         variant="ghost" 
                         size="sm" 
                         className="flex items-center gap-1"
+                        onClick={() => handleDownload(record.id)}
                       >
                         <Download className="w-4 h-4" />
                         Download
@@ -129,7 +145,7 @@ const MedicalRecords = () => {
                         variant="outline" 
                         size="sm" 
                         className="flex items-center gap-1"
-                        onClick={() => navigate(`/record-details/${record.id}`)}
+                        onClick={() => handleListen(record.id)}
                       >
                         Listen
                       </Button>
@@ -137,6 +153,7 @@ const MedicalRecords = () => {
                         variant="ghost" 
                         size="sm" 
                         className="flex items-center gap-1"
+                        onClick={() => handleDownload(record.id)}
                       >
                         <Download className="w-4 h-4" />
                         Download

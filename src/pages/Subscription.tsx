@@ -1,4 +1,6 @@
+
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import SubscriptionPlans from "@/components/SubscriptionPlans";
@@ -9,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 const Subscription = () => {
+  const navigate = useNavigate();
+  
   useEffect(() => {
     document.title = "Premium Plans - MediLog";
   }, []);
@@ -31,6 +35,24 @@ const Subscription = () => {
     "Health data exports",
     "Family account management"
   ];
+
+  const handleStandardPlan = () => {
+    toast.success("Standard plan selected. Proceeding to checkout...");
+    // Simulate checkout process
+    setTimeout(() => {
+      localStorage.setItem("subscriptionPlan", "standard");
+      navigate("/dashboard");
+    }, 1500);
+  };
+
+  const handlePremiumPlan = () => {
+    toast.success("Premium plan selected. Proceeding to checkout...");
+    // Simulate checkout process
+    setTimeout(() => {
+      localStorage.setItem("subscriptionPlan", "premium");
+      navigate("/dashboard");
+    }, 1500);
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-background/80">
@@ -82,7 +104,7 @@ const Subscription = () => {
                 <Button 
                   variant="outline"
                   className="w-full"
-                  onClick={() => toast.success("Standard plan selected. Proceeding to checkout...")}
+                  onClick={handleStandardPlan}
                 >
                   Get Started
                 </Button>
@@ -109,7 +131,7 @@ const Subscription = () => {
                 </ul>
                 <Button 
                   className="w-full bg-primary hover:bg-primary/90"
-                  onClick={() => toast.success("Premium plan selected. Proceeding to checkout...")}
+                  onClick={handlePremiumPlan}
                 >
                   Subscribe Now
                 </Button>

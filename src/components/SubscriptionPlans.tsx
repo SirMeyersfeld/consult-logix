@@ -1,13 +1,15 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, CheckCircle2, Shield, HeartPulse, ClipboardCheck } from "lucide-react";
 import { toast } from "sonner";
 
-type PlanType = "doctor" | "patient";
+type PlanType = "doctor" | "patient" | "standard" | "premium";
 
 const SubscriptionPlans = () => {
+  const navigate = useNavigate();
   const [loadingPlan, setLoadingPlan] = useState<PlanType | null>(null);
   const [activePlan, setActivePlan] = useState<PlanType | null>(
     localStorage.getItem("subscriptionPlan") as PlanType | null
@@ -22,10 +24,12 @@ const SubscriptionPlans = () => {
       setActivePlan(planType);
       setLoadingPlan(null);
       
-      if (planType === "doctor") {
-        toast.success("Doctor subscription activated successfully!");
+      if (planType === "doctor" || planType === "patient") {
+        toast.success(`${planType === "doctor" ? "Doctor" : "Patient"} subscription activated successfully!`);
+        navigate("/dashboard");
       } else {
-        toast.success("Patient subscription activated successfully!");
+        toast.success(`${planType === "premium" ? "Premium" : "Standard"} plan activated successfully!`);
+        navigate("/dashboard");
       }
     }, 1500);
   };

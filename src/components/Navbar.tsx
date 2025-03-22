@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -32,6 +32,7 @@ import { cn } from '@/lib/utils';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
 
   const navigationGroups = [
@@ -76,6 +77,17 @@ const Navbar = () => {
     }
   ];
 
+  // Handle navigation and close mobile menu if open
+  const handleNavigation = (path) => {
+    navigate(path);
+    // Close mobile menu if it's open (by clicking outside, handled by Sheet component)
+  };
+
+  // Check if a link is active
+  const isActiveLink = (href) => {
+    return location.pathname === href;
+  };
+
   return (
     <div className="bg-background/90 backdrop-blur-md sticky top-0 z-50 shadow-sm">
       <div className="container py-4 px-4 mx-auto flex items-center justify-between">
@@ -95,23 +107,36 @@ const Navbar = () => {
                     {group.links.length === 1 ? (
                       <Link 
                         to={group.links[0].href} 
-                        className="text-sm font-medium text-gray-700 hover:text-primary transition-colors px-3 py-2"
+                        className={cn(
+                          "text-sm font-medium transition-colors px-3 py-2",
+                          isActiveLink(group.links[0].href) 
+                            ? "text-primary font-semibold" 
+                            : "text-gray-700 hover:text-primary"
+                        )}
                       >
                         {group.title}
                       </Link>
                     ) : (
                       <>
-                        <NavigationMenuTrigger className="h-9 px-3">
+                        <NavigationMenuTrigger 
+                          className={cn(
+                            "h-9 px-3",
+                            group.links.some(link => isActiveLink(link.href)) && "text-primary font-semibold"
+                          )}
+                        >
                           {group.title}
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
-                          <ul className="grid w-[200px] gap-2 p-4">
+                          <ul className="grid w-[200px] gap-2 p-4 bg-background">
                             {group.links.map((link) => (
                               <li key={link.title}>
                                 <NavigationMenuLink asChild>
                                   <Link
                                     to={link.href}
-                                    className="block select-none rounded-md p-2 text-sm leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
+                                    className={cn(
+                                      "block select-none rounded-md p-2 text-sm leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground",
+                                      isActiveLink(link.href) && "bg-primary/10 text-primary font-medium"
+                                    )}
                                   >
                                     {link.title}
                                   </Link>
@@ -136,6 +161,8 @@ const Navbar = () => {
           ) : (
             <Button size="sm" onClick={() => {
               localStorage.removeItem('isAuthenticated');
+              localStorage.removeItem('userEmail');
+              localStorage.removeItem('userName');
               navigate('/sign-in');
             }}>Sign Out</Button>
           )}
@@ -145,7 +172,7 @@ const Navbar = () => {
           <SheetTrigger className="md:hidden">
             <Menu />
           </SheetTrigger>
-          <SheetContent side="right" className="sm:w-2/3 md:w-1/2">
+          <SheetContent side="right" className="sm:w-2/3 md:w-1/2 bg-background">
             <SheetHeader>
               <SheetTitle>Menu</SheetTitle>
               <SheetDescription>
@@ -153,7 +180,7 @@ const Navbar = () => {
               </SheetDescription>
             </SheetHeader>
             <div className="flex flex-col space-y-4 mt-6">
-              <Command className="rounded-lg border shadow-md">
+              <Command className="rounded-lg border shadow-md bg-background">
                 <CommandInput placeholder="Search..." />
                 <CommandList>
                   {navigationGroups.map((group) => (
@@ -161,10 +188,12 @@ const Navbar = () => {
                       {group.links.map((link) => (
                         <CommandItem 
                           key={link.title}
-                          onSelect={() => navigate(link.href)}
+                          onSelect={() => handleNavigation(link.href)}
                           className="cursor-pointer"
                         >
-                          <span>{link.title}</span>
+                          <span className={cn(
+                            isActiveLink(link.href) && "text-primary font-medium"
+                          )}>{link.title}</span>
                         </CommandItem>
                       ))}
                     </CommandGroup>
@@ -180,6 +209,8 @@ const Navbar = () => {
               ) : (
                 <Button onClick={() => {
                   localStorage.removeItem('isAuthenticated');
+                  localStorage.removeItem('userEmail');
+                  localStorage.removeItem('userName');
                   navigate('/sign-in');
                 }} className="w-full">Sign Out</Button>
               )}
