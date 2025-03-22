@@ -1,3 +1,4 @@
+
 /**
  * Utility functions for processing audio transcriptions and extracting medical information
  */
@@ -161,7 +162,13 @@ const extractMedicationDetails = (transcript: string): Array<{
     // Look for medication names and dosages
     const medMatch = line.match(/\b([A-Za-z]+)\b\s+(\d+\s*(?:mg|mcg|ml))/i);
     if (medMatch) {
-      const medInfo = {
+      // Initialize with optional properties to fix the TypeScript errors
+      const medInfo: {
+        name: string;
+        dosage?: string;
+        instructions?: string;
+        duration?: string;
+      } = {
         name: medMatch[1],
         dosage: medMatch[2]
       };
