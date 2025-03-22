@@ -18,12 +18,63 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Menu } from "lucide-react";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command";
+import { Menu, ChevronDown } from "lucide-react";
 import { cn } from '@/lib/utils';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
+  const navigationGroups = [
+    {
+      title: "Home",
+      links: [{ href: "/", title: "Home Page" }]
+    },
+    {
+      title: "Features",
+      links: [
+        { href: "/features", title: "Features Overview" },
+        { href: "/health-dashboard", title: "Health Dashboard" },
+        { href: "/medication-reminders", title: "Medication Reminders" },
+        { href: "/telemedicine", title: "Telemedicine" },
+        { href: "/mediport", title: "MediPort" }
+      ]
+    },
+    {
+      title: "Resources",
+      links: [
+        { href: "/how-it-works", title: "How It Works" },
+        { href: "/faq", title: "FAQ" },
+        { href: "/blog", title: "Blog" },
+        { href: "/health-tips", title: "Health Tips" }
+      ]
+    },
+    {
+      title: "Plans",
+      links: [
+        { href: "/subscription", title: "Subscription Plans" },
+        { href: "/plan-comparison", title: "Plan Comparison" },
+        { href: "/testimonials", title: "Testimonials" }
+      ]
+    },
+    {
+      title: "About",
+      links: [{ href: "/about", title: "About Us" }]
+    },
+    {
+      title: "Contact",
+      links: [{ href: "/contact-form", title: "Contact Us" }]
+    }
+  ];
 
   return (
     <div className="bg-background/90 backdrop-blur-md sticky top-0 z-50 shadow-sm">
@@ -36,99 +87,46 @@ const Navbar = () => {
         </Link>
 
         <div className="hidden md:flex items-center space-x-2">
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <Link to="/" className="text-sm font-medium text-gray-700 hover:text-primary transition-colors px-3 py-2">
-                  Home
-                </Link>
-              </NavigationMenuItem>
-              
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Features</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-2">
-                    <li className="row-span-3">
-                      <NavigationMenuLink asChild>
-                        <a
-                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-primary/20 to-primary/5 p-6 no-underline outline-none focus:shadow-md"
-                          href="/features"
-                        >
-                          <div className="mb-2 mt-4 text-lg font-medium">
-                            Features Overview
-                          </div>
-                          <p className="text-sm leading-tight text-muted-foreground">
-                            Discover all the powerful features that MediLog offers for patients and doctors.
-                          </p>
-                        </a>
-                      </NavigationMenuLink>
-                    </li>
-                    <ListItem href="/health-dashboard" title="Health Dashboard">
-                      Track your health metrics and see trends over time
-                    </ListItem>
-                    <ListItem href="/medication-reminders" title="Medication Reminders">
-                      Never miss a dose with custom reminders
-                    </ListItem>
-                    <ListItem href="/telemedicine" title="Telemedicine">
-                      Connect with doctors virtually from anywhere
-                    </ListItem>
-                    <ListItem href="/mediport" title="MediPort">
-                      Your digital health passport for emergencies
-                    </ListItem>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:grid-cols-2">
-                    <ListItem href="/how-it-works" title="How It Works">
-                      Step-by-step guide to using MediLog
-                    </ListItem>
-                    <ListItem href="/faq" title="FAQ">
-                      Answers to common questions
-                    </ListItem>
-                    <ListItem href="/blog" title="Blog">
-                      Health insights and articles
-                    </ListItem>
-                    <ListItem href="/health-tips" title="Health Tips">
-                      Expert advice for better health
-                    </ListItem>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Plans</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:grid-cols-2">
-                    <ListItem href="/subscription" title="Subscription Plans">
-                      Choose the right plan for you
-                    </ListItem>
-                    <ListItem href="/plan-comparison" title="Plan Comparison">
-                      See detailed feature comparison
-                    </ListItem>
-                    <ListItem href="/testimonials" title="Testimonials">
-                      What our users are saying
-                    </ListItem>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              
-              <NavigationMenuItem>
-                <Link to="/about" className="text-sm font-medium text-gray-700 hover:text-primary transition-colors px-3 py-2">
-                  About
-                </Link>
-              </NavigationMenuItem>
-              
-              <NavigationMenuItem>
-                <Link to="/contact-form" className="text-sm font-medium text-gray-700 hover:text-primary transition-colors px-3 py-2">
-                  Contact
-                </Link>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+          <div className="flex items-center space-x-1">
+            <NavigationMenu>
+              <NavigationMenuList className="flex flex-wrap justify-center gap-1">
+                {navigationGroups.map((group) => (
+                  <NavigationMenuItem key={group.title}>
+                    {group.links.length === 1 ? (
+                      <Link 
+                        to={group.links[0].href} 
+                        className="text-sm font-medium text-gray-700 hover:text-primary transition-colors px-3 py-2"
+                      >
+                        {group.title}
+                      </Link>
+                    ) : (
+                      <>
+                        <NavigationMenuTrigger className="h-9 px-3">
+                          {group.title}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                          <ul className="grid w-[200px] gap-2 p-4">
+                            {group.links.map((link) => (
+                              <li key={link.title}>
+                                <NavigationMenuLink asChild>
+                                  <Link
+                                    to={link.href}
+                                    className="block select-none rounded-md p-2 text-sm leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
+                                  >
+                                    {link.title}
+                                  </Link>
+                                </NavigationMenuLink>
+                              </li>
+                            ))}
+                          </ul>
+                        </NavigationMenuContent>
+                      </>
+                    )}
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
           
           {!isAuthenticated ? (
             <>
@@ -155,16 +153,24 @@ const Navbar = () => {
               </SheetDescription>
             </SheetHeader>
             <div className="flex flex-col space-y-4 mt-6">
-              <Link to="/" className="text-lg font-medium text-gray-700 hover:text-primary transition-colors block py-2">Home</Link>
-              <Link to="/features" className="text-lg font-medium text-gray-700 hover:text-primary transition-colors block py-2">Features</Link>
-              <Link to="/how-it-works" className="text-lg font-medium text-gray-700 hover:text-primary transition-colors block py-2">How It Works</Link>
-              <Link to="/plan-comparison" className="text-lg font-medium text-gray-700 hover:text-primary transition-colors block py-2">Plan Comparison</Link>
-              <Link to="/blog" className="text-lg font-medium text-gray-700 hover:text-primary transition-colors block py-2">Blog</Link>
-              <Link to="/testimonials" className="text-lg font-medium text-gray-700 hover:text-primary transition-colors block py-2">Testimonials</Link>
-              <Link to="/faq" className="text-lg font-medium text-gray-700 hover:text-primary transition-colors block py-2">FAQ</Link>
-              <Link to="/about" className="text-lg font-medium text-gray-700 hover:text-primary transition-colors block py-2">About</Link>
-              <Link to="/contact-form" className="text-lg font-medium text-gray-700 hover:text-primary transition-colors block py-2">Contact</Link>
-              <Link to="/dashboard" className="text-lg font-medium text-gray-700 hover:text-primary transition-colors block py-2">Dashboard</Link>
+              <Command className="rounded-lg border shadow-md">
+                <CommandInput placeholder="Search..." />
+                <CommandList>
+                  {navigationGroups.map((group) => (
+                    <CommandGroup key={group.title} heading={group.title}>
+                      {group.links.map((link) => (
+                        <CommandItem 
+                          key={link.title}
+                          onSelect={() => navigate(link.href)}
+                          className="cursor-pointer"
+                        >
+                          <span>{link.title}</span>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  ))}
+                </CommandList>
+              </Command>
               
               {!isAuthenticated ? (
                 <>
