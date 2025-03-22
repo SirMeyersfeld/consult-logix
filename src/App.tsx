@@ -29,7 +29,16 @@ import MedicationRemindersPage from './pages/MedicationRemindersPage';
 import HealthDashboard from './pages/HealthDashboard';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
+
+// New pages
+import PlanComparison from './pages/PlanComparison';
+import FAQ from './pages/FAQ';
+import Testimonials from './pages/Testimonials';
+import Blog from './pages/Blog';
+import ContactForm from './pages/ContactForm';
+import HowItWorks from './pages/HowItWorks';
+import Features from './pages/Features';
 
 function App() {
   return (
@@ -64,6 +73,16 @@ function App() {
           <Route path="/medication-reminders" element={<MedicationRemindersPage />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          
+          {/* New page routes */}
+          <Route path="/plan-comparison" element={<PlanComparison />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/testimonials" element={<Testimonials />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/contact-form" element={<ContactForm />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/features" element={<Features />} />
+          
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

@@ -18,20 +18,24 @@ const FooterLinks = () => {
       <div>
         <h3 className="font-semibold mb-4">Product</h3>
         <ul className="space-y-2">
+          <li><Link to="/features" className="text-sm text-muted-foreground hover:text-primary transition-colors">Features</Link></li>
+          <li><Link to="/how-it-works" className="text-sm text-muted-foreground hover:text-primary transition-colors">How It Works</Link></li>
           <li><Link to="/mediport" className="text-sm text-muted-foreground hover:text-primary transition-colors">MediPort</Link></li>
           <li><Link to="/consultation" className="text-sm text-muted-foreground hover:text-primary transition-colors">Consultation</Link></li>
+          <li><Link to="/plan-comparison" className="text-sm text-muted-foreground hover:text-primary transition-colors">Plan Comparison</Link></li>
           <li><Link to="/subscription" className="text-sm text-muted-foreground hover:text-primary transition-colors">Pricing</Link></li>
-          <li><Link to="/health-tips" className="text-sm text-muted-foreground hover:text-primary transition-colors">Health Tips</Link></li>
         </ul>
       </div>
       
       <div>
-        <h3 className="font-semibold mb-4">Company</h3>
+        <h3 className="font-semibold mb-4">Resources</h3>
         <ul className="space-y-2">
+          <li><Link to="/blog" className="text-sm text-muted-foreground hover:text-primary transition-colors">Blog</Link></li>
+          <li><Link to="/testimonials" className="text-sm text-muted-foreground hover:text-primary transition-colors">Testimonials</Link></li>
+          <li><Link to="/health-tips" className="text-sm text-muted-foreground hover:text-primary transition-colors">Health Tips</Link></li>
+          <li><Link to="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">FAQ</Link></li>
           <li><Link to="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
-          <li><Link to="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
-          <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Careers</a></li>
-          <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Partners</a></li>
+          <li><Link to="/contact-form" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
         </ul>
       </div>
       
