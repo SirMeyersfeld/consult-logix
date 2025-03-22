@@ -1,4 +1,3 @@
-
 /**
  * Utility functions for processing audio transcriptions and extracting medical information
  */
@@ -9,8 +8,7 @@ const MEDICAL_KEYWORDS = {
     /\b\d+\s*mg\b/i, /\b\d+\s*mcg\b/i, /\b\d+\s*ml\b/i, 
     /\b\d+\s*tablets?\b/i, /\b\d+\s*capsules?\b/i,
     /\btablet(s)?\b/i, /\bcapsule(s)?\b/i, /\bpill(s)?\b/i,
-    /\b(amoxicillin|lisinopril|metformin|atorvastatin|amlodipine|losartan|
-    albuterol|omeprazole|levothyroxine|gabapentin)\b/i,
+    /\b(amoxicillin|lisinopril|metformin|atorvastatin|amlodipine|losartan|albuterol|omeprazole|levothyroxine|gabapentin)\b/i,
   ],
   DOSAGE: [
     /\b\d+\s*times?\s*daily\b/i, /\b\d+\s*times?\s*a\s*day\b/i,
