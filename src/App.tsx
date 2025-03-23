@@ -50,6 +50,8 @@ import WearableIntegration from './pages/WearableIntegration';
 import SymptomChecker from './pages/SymptomChecker';
 import AppointmentScheduler from './pages/AppointmentScheduler';
 import HealthGoals from './pages/HealthGoals';
+import ExerciseLogging from './pages/ExerciseLogging';
+import DoctorFinder from './pages/DoctorFinder';
 
 function App() {
   return (
@@ -104,6 +106,10 @@ function App() {
           <Route path="/symptom-checker" element={<SymptomChecker />} />
           <Route path="/appointment-scheduler" element={<AppointmentScheduler />} />
           <Route path="/health-goals" element={<HealthGoals />} />
+          
+          {/* Our new pages */}
+          <Route path="/exercise-logging" element={<ExerciseLogging />} />
+          <Route path="/doctor-finder" element={<DoctorFinder />} />
           
           <Route path="*" element={<NotFound />} />
         </Routes>

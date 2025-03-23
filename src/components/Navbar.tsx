@@ -50,7 +50,9 @@ const Navbar = () => {
         { href: "/mediport", title: "MediPort" },
         { href: "/wearable-integration", title: "Wearable Integration" },
         { href: "/symptom-checker", title: "Symptom Checker" },
-        { href: "/health-goals", title: "Health Goals" }
+        { href: "/health-goals", title: "Health Goals" },
+        { href: "/exercise-logging", title: "Exercise Logging" },
+        { href: "/doctor-finder", title: "Doctor Finder" }
       ]
     },
     {
