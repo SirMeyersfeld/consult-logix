@@ -41,18 +41,10 @@ const Navbar = () => {
       links: [{ href: "/", title: "Home Page" }]
     },
     {
-      title: "Features",
+      title: "Dashboard",
       links: [
-        { href: "/features", title: "Features Overview" },
+        { href: "/dashboard", title: "User Dashboard" },
         { href: "/health-dashboard", title: "Health Dashboard" },
-        { href: "/medication-reminders", title: "Medication Reminders" },
-        { href: "/telemedicine", title: "Telemedicine" },
-        { href: "/mediport", title: "MediPort" },
-        { href: "/wearable-integration", title: "Wearable Integration" },
-        { href: "/symptom-checker", title: "Symptom Checker" },
-        { href: "/health-goals", title: "Health Goals" },
-        { href: "/exercise-logging", title: "Exercise Logging" },
-        { href: "/doctor-finder", title: "Doctor Finder" }
       ]
     },
     {
@@ -62,44 +54,78 @@ const Navbar = () => {
         { href: "/family-health-records", title: "Family Health Records" },
         { href: "/treatment-timeline", title: "Treatment Timeline" },
         { href: "/medical-history-timeline", title: "Medical History" },
-        { href: "/specialist-referrals", title: "Specialist Referrals" }
+        { href: "/lab-results", title: "Lab Results" },
+        { href: "/vaccinations", title: "Vaccinations" },
+        { href: "/documents", title: "Documents" }
       ]
     },
     {
-      title: "Tools",
+      title: "Medications",
       links: [
+        { href: "/medications", title: "My Medications" },
+        { href: "/medication-reminders", title: "Medication Reminders" },
+        { href: "/add-medication", title: "Add Medication" },
         { href: "/medication-interactions", title: "Medication Interactions" },
-        { href: "/nutrition-exercise", title: "Nutrition & Exercise" },
-        { href: "/emergency-contacts", title: "Emergency Contacts" },
-        { href: "/patient-community", title: "Patient Community" },
+        { href: "/prescription", title: "Prescription" }
+      ]
+    },
+    {
+      title: "Care",
+      links: [
+        { href: "/appointments", title: "Appointments" },
         { href: "/appointment-scheduler", title: "Appointment Scheduler" },
-        { href: "/health-news", title: "Health News" }
+        { href: "/specialist-referrals", title: "Specialist Referrals" },
+        { href: "/telemedicine", title: "Telemedicine" },
+        { href: "/consultation", title: "Consultation" },
+        { href: "/doctor-finder", title: "Doctor Finder" }
+      ]
+    },
+    {
+      title: "Wellness",
+      links: [
+        { href: "/health-tracker", title: "Health Tracker" },
+        { href: "/activity", title: "Activity" },
+        { href: "/health-goals", title: "Health Goals" },
+        { href: "/exercise-logging", title: "Exercise Logging" },
+        { href: "/nutrition-exercise", title: "Nutrition & Exercise" },
+        { href: "/symptom-checker", title: "Symptom Checker" },
+        { href: "/wearable-integration", title: "Wearable Integration" }
       ]
     },
     {
       title: "Resources",
       links: [
-        { href: "/how-it-works", title: "How It Works" },
-        { href: "/faq", title: "FAQ" },
-        { href: "/blog", title: "Blog" },
-        { href: "/health-tips", title: "Health Tips" }
+        { href: "/health-tips", title: "Health Tips" },
+        { href: "/health-news", title: "Health News" },
+        { href: "/emergency-contacts", title: "Emergency Contacts" },
+        { href: "/patient-community", title: "Patient Community" },
+        { href: "/blog", title: "Blog" }
       ]
     },
     {
-      title: "Plans",
+      title: "Tools",
       links: [
-        { href: "/subscription", title: "Subscription Plans" },
-        { href: "/plan-comparison", title: "Plan Comparison" },
-        { href: "/testimonials", title: "Testimonials" }
+        { href: "/mediport", title: "MediPort" },
+        { href: "/profile", title: "My Profile" }
       ]
     },
     {
       title: "About",
-      links: [{ href: "/about", title: "About Us" }]
+      links: [
+        { href: "/about", title: "About Us" },
+        { href: "/how-it-works", title: "How It Works" },
+        { href: "/features", title: "Features" },
+        { href: "/faq", title: "FAQ" },
+        { href: "/testimonials", title: "Testimonials" },
+        { href: "/contact-form", title: "Contact Us" }
+      ]
     },
     {
-      title: "Contact",
-      links: [{ href: "/contact-form", title: "Contact Us" }]
+      title: "Subscription",
+      links: [
+        { href: "/subscription", title: "Subscription Plans" },
+        { href: "/plan-comparison", title: "Plan Comparison" }
+      ]
     }
   ];
 
