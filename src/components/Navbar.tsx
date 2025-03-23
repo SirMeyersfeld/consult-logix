@@ -56,6 +56,16 @@ const Navbar = () => {
       ]
     },
     {
+      title: "Health Records",
+      links: [
+        { href: "/medical-records", title: "Medical Records" },
+        { href: "/family-health-records", title: "Family Health Records" },
+        { href: "/treatment-timeline", title: "Treatment Timeline" },
+        { href: "/medical-history-timeline", title: "Medical History" },
+        { href: "/specialist-referrals", title: "Specialist Referrals" }
+      ]
+    },
+    {
       title: "Tools",
       links: [
         { href: "/medication-interactions", title: "Medication Interactions" },

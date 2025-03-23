@@ -53,6 +53,12 @@ import HealthGoals from './pages/HealthGoals';
 import ExerciseLogging from './pages/ExerciseLogging';
 import DoctorFinder from './pages/DoctorFinder';
 
+// New pages we just added
+import FamilyHealthRecords from './pages/FamilyHealthRecords';
+import TreatmentTimeline from './pages/TreatmentTimeline';
+import SpecialistReferrals from './pages/SpecialistReferrals';
+import MedicalHistoryTimeline from './pages/MedicalHistoryTimeline';
+
 function App() {
   return (
     <Router>
@@ -110,6 +116,12 @@ function App() {
           {/* Our new pages */}
           <Route path="/exercise-logging" element={<ExerciseLogging />} />
           <Route path="/doctor-finder" element={<DoctorFinder />} />
+          
+          {/* Newly added pages for this request */}
+          <Route path="/family-health-records" element={<FamilyHealthRecords />} />
+          <Route path="/treatment-timeline" element={<TreatmentTimeline />} />
+          <Route path="/specialist-referrals" element={<SpecialistReferrals />} />
+          <Route path="/medical-history-timeline" element={<MedicalHistoryTimeline />} />
           
           <Route path="*" element={<NotFound />} />
         </Routes>
