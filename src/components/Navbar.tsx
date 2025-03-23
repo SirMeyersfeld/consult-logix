@@ -47,7 +47,21 @@ const Navbar = () => {
         { href: "/health-dashboard", title: "Health Dashboard" },
         { href: "/medication-reminders", title: "Medication Reminders" },
         { href: "/telemedicine", title: "Telemedicine" },
-        { href: "/mediport", title: "MediPort" }
+        { href: "/mediport", title: "MediPort" },
+        { href: "/wearable-integration", title: "Wearable Integration" },
+        { href: "/symptom-checker", title: "Symptom Checker" },
+        { href: "/health-goals", title: "Health Goals" }
+      ]
+    },
+    {
+      title: "Tools",
+      links: [
+        { href: "/medication-interactions", title: "Medication Interactions" },
+        { href: "/nutrition-exercise", title: "Nutrition & Exercise" },
+        { href: "/emergency-contacts", title: "Emergency Contacts" },
+        { href: "/patient-community", title: "Patient Community" },
+        { href: "/appointment-scheduler", title: "Appointment Scheduler" },
+        { href: "/health-news", title: "Health News" }
       ]
     },
     {

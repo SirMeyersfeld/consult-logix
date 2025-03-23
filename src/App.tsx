@@ -40,6 +40,17 @@ import ContactForm from './pages/ContactForm';
 import HowItWorks from './pages/HowItWorks';
 import Features from './pages/Features';
 
+// Newly added pages
+import MedicationInteractions from './pages/MedicationInteractions';
+import PatientCommunity from './pages/PatientCommunity';
+import EmergencyContacts from './pages/EmergencyContacts';
+import NutritionExercise from './pages/NutritionExercise';
+import HealthNews from './pages/HealthNews';
+import WearableIntegration from './pages/WearableIntegration';
+import SymptomChecker from './pages/SymptomChecker';
+import AppointmentScheduler from './pages/AppointmentScheduler';
+import HealthGoals from './pages/HealthGoals';
+
 function App() {
   return (
     <Router>
@@ -82,6 +93,17 @@ function App() {
           <Route path="/contact-form" element={<ContactForm />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/features" element={<Features />} />
+          
+          {/* Newly added routes */}
+          <Route path="/medication-interactions" element={<MedicationInteractions />} />
+          <Route path="/patient-community" element={<PatientCommunity />} />
+          <Route path="/emergency-contacts" element={<EmergencyContacts />} />
+          <Route path="/nutrition-exercise" element={<NutritionExercise />} />
+          <Route path="/health-news" element={<HealthNews />} />
+          <Route path="/wearable-integration" element={<WearableIntegration />} />
+          <Route path="/symptom-checker" element={<SymptomChecker />} />
+          <Route path="/appointment-scheduler" element={<AppointmentScheduler />} />
+          <Route path="/health-goals" element={<HealthGoals />} />
           
           <Route path="*" element={<NotFound />} />
         </Routes>
