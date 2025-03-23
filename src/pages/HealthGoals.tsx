@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,8 +10,83 @@ import {
   Check,
 } from "lucide-react";
 import AnimatedTransition from '@/components/AnimatedTransition';
+import { toast } from 'sonner';
 
 const HealthGoals = () => {
+  const [goals, setGoals] = useState({
+    steps: {
+      current: 8765,
+      goal: 10000,
+      completed: false
+    },
+    water: {
+      current: 6,
+      goal: 8,
+      completed: false
+    },
+    activeMinutes: {
+      current: 25,
+      goal: 30,
+      completed: false
+    }
+  });
+
+  const handleCompleteSteps = () => {
+    setGoals(prev => ({
+      ...prev,
+      steps: {
+        ...prev.steps,
+        completed: true
+      }
+    }));
+    toast.success('Steps goal marked as complete!');
+  };
+
+  const handleAddWater = () => {
+    const newCurrent = Math.min(goals.water.current + 1, goals.water.goal);
+    const completed = newCurrent === goals.water.goal;
+    
+    setGoals(prev => ({
+      ...prev,
+      water: {
+        ...prev.water,
+        current: newCurrent,
+        completed
+      }
+    }));
+    
+    if (completed) {
+      toast.success('Water intake goal achieved!');
+    } else {
+      toast.success('Water intake updated!');
+    }
+  };
+
+  const handleSyncActivity = () => {
+    toast.success('Syncing activity data...');
+    
+    // Simulate a sync with a delay
+    setTimeout(() => {
+      const newActiveMinutes = Math.min(goals.activeMinutes.current + 5, goals.activeMinutes.goal);
+      const completed = newActiveMinutes === goals.activeMinutes.goal;
+      
+      setGoals(prev => ({
+        ...prev,
+        activeMinutes: {
+          ...prev.activeMinutes,
+          current: newActiveMinutes,
+          completed
+        }
+      }));
+      
+      if (completed) {
+        toast.success('Activity synced! Active minutes goal achieved!');
+      } else {
+        toast.success('Activity synced! Active minutes updated.');
+      }
+    }, 1000);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-background/60">
       <Navbar />
@@ -31,13 +107,17 @@ const HealthGoals = () => {
                 <CardDescription>Track your daily step count</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold">8,765</div>
+                <div className="text-3xl font-bold">{goals.steps.current.toLocaleString()}</div>
                 <p className="text-sm text-muted-foreground">
-                  Goal: 10,000 steps
+                  Goal: {goals.steps.goal.toLocaleString()} steps
                 </p>
-                <Button className="mt-4 w-full">
+                <Button 
+                  className="mt-4 w-full"
+                  disabled={goals.steps.completed}
+                  onClick={handleCompleteSteps}
+                >
                   <Check className="h-4 w-4 mr-2" />
-                  Mark as Complete
+                  {goals.steps.completed ? 'Completed' : 'Mark as Complete'}
                 </Button>
               </CardContent>
             </Card>
@@ -48,11 +128,15 @@ const HealthGoals = () => {
                 <CardDescription>Log your daily water consumption</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold">6/8</div>
+                <div className="text-3xl font-bold">{goals.water.current}/{goals.water.goal}</div>
                 <p className="text-sm text-muted-foreground">
                   Glasses of water
                 </p>
-                <Button className="mt-4 w-full">
+                <Button 
+                  className="mt-4 w-full"
+                  disabled={goals.water.completed || goals.water.current >= goals.water.goal}
+                  onClick={handleAddWater}
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Glass
                 </Button>
@@ -65,11 +149,14 @@ const HealthGoals = () => {
                 <CardDescription>Track your daily active minutes</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold">25</div>
+                <div className="text-3xl font-bold">{goals.activeMinutes.current}</div>
                 <p className="text-sm text-muted-foreground">
-                  Goal: 30 minutes
+                  Goal: {goals.activeMinutes.goal} minutes
                 </p>
-                <Button className="mt-4 w-full">
+                <Button 
+                  className="mt-4 w-full"
+                  onClick={handleSyncActivity}
+                >
                   <RotateCw className="h-4 w-4 mr-2" />
                   Sync Activity
                 </Button>
