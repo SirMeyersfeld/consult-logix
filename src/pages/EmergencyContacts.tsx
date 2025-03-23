@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -25,7 +24,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Phone, Mail, User, MapPin, Plus, Trash2, Edit, Heart, FirstAid, UserCircle } from "lucide-react";
+import { Phone, Mail, User, MapPin, Plus, Trash2, Edit, Heart, Stethoscope, UserCircle } from "lucide-react";
 import AnimatedTransition from '@/components/AnimatedTransition';
 import { toast } from 'sonner';
 
@@ -125,13 +124,11 @@ const EmergencyContacts = () => {
     }
     
     if (editingId !== null) {
-      // Update existing contact
       setContacts(contacts.map(contact => 
         contact.id === editingId ? { ...formData, id: editingId } : contact
       ));
       toast.success("Contact updated successfully!");
     } else {
-      // Add new contact
       const newContact = {
         ...formData,
         id: Math.max(0, ...contacts.map(c => c.id)) + 1
@@ -169,7 +166,7 @@ const EmergencyContacts = () => {
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case 'personal': return <UserCircle className="h-5 w-5 text-blue-500" />;
-      case 'medical': return <FirstAid className="h-5 w-5 text-green-500" />;
+      case 'medical': return <Stethoscope className="h-5 w-5 text-green-500" />;
       case 'emergency': return <Heart className="h-5 w-5 text-red-500" />;
       default: return <User className="h-5 w-5" />;
     }
@@ -304,7 +301,6 @@ const EmergencyContacts = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {/* Emergency Services */}
             <Card className="border-red-200">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2">
@@ -384,11 +380,10 @@ const EmergencyContacts = () => {
               </CardContent>
             </Card>
             
-            {/* Medical Contacts */}
             <Card className="border-green-200">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2">
-                  <FirstAid className="h-5 w-5 text-green-500" />
+                  <Stethoscope className="h-5 w-5 text-green-500" />
                   <CardTitle>Medical Professionals</CardTitle>
                 </div>
                 <CardDescription>Your healthcare providers</CardDescription>
@@ -464,7 +459,6 @@ const EmergencyContacts = () => {
               </CardContent>
             </Card>
             
-            {/* Personal Contacts */}
             <Card className="border-blue-200">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2">
