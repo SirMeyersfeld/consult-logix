@@ -10,14 +10,14 @@ import {
   TabsTrigger 
 } from "@/components/ui/tabs";
 import {
-  WatchCircle,
+  Watch,
   Heart,
   Activity,
   Moon,
   BarChart4,
   Footprints,
   Battery,
-  RefreshCw,
+  RotateCw,
   Smartphone,
   Gauge,
   Plus,
@@ -55,7 +55,7 @@ const WearableIntegration = () => {
       id: 1,
       name: "Apple Watch Series 7",
       type: "smartwatch",
-      icon: <WatchCircle className="h-8 w-8 text-gray-800" />,
+      icon: <Watch className="h-8 w-8 text-gray-800" />,
       isConnected: true,
       batteryLevel: 68,
       lastSync: "10 minutes ago"
@@ -134,7 +134,7 @@ const WearableIntegration = () => {
       id: 101,
       name: "Garmin Forerunner 255",
       type: "sport-watch",
-      icon: <WatchCircle className="h-6 w-6 text-gray-800" />
+      icon: <Watch className="h-6 w-6 text-gray-800" />
     },
     {
       id: 102,
@@ -146,7 +146,7 @@ const WearableIntegration = () => {
       id: 103,
       name: "Samsung Galaxy Watch 5",
       type: "smartwatch",
-      icon: <WatchCircle className="h-6 w-6 text-gray-800" />
+      icon: <Watch className="h-6 w-6 text-gray-800" />
     }
   ];
   
@@ -300,7 +300,7 @@ const WearableIntegration = () => {
                       
                       <div className="flex items-center justify-between">
                         <div className="flex items-center text-sm">
-                          <RefreshCw className="h-4 w-4 mr-2 text-muted-foreground" />
+                          <RotateCw className="h-4 w-4 mr-2 text-muted-foreground" />
                           <span>Last Sync</span>
                         </div>
                         <div className="text-sm">{device.lastSync}</div>
@@ -321,7 +321,7 @@ const WearableIntegration = () => {
                         disabled={!device.isConnected}
                         variant="outline"
                       >
-                        <RefreshCw className="h-4 w-4" />
+                        <RotateCw className="h-4 w-4" />
                       </Button>
                     </div>
                   </CardContent>
