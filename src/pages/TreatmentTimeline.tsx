@@ -87,7 +87,8 @@ const TreatmentTimeline = () => {
   );
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    if (!dateString) return "Not scheduled";
+    const options = { year: 'numeric', month: 'long', day: 'numeric' } as Intl.DateTimeFormatOptions;
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 

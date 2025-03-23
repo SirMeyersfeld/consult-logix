@@ -9,8 +9,8 @@ import {
   Search, 
   Star, 
   Stethoscope,
-  Virus,
-  Pills,
+  Microscope,
+  Pill,
   Thermometer
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
@@ -49,7 +49,7 @@ const SAMPLE_MEDICAL_HISTORY = [
     description: "Community-acquired pneumonia. Treated with antibiotics.",
     provider: "Dr. James Wilson",
     location: "Urgent Care Center",
-    icon: Virus,
+    icon: Microscope,
     color: "text-purple-500"
   },
   {
@@ -93,7 +93,7 @@ const SAMPLE_MEDICAL_HISTORY = [
     description: "Prescribed Loratadine for seasonal allergies.",
     provider: "Dr. Michael Johnson",
     location: "Primary Care Clinic",
-    icon: Pills,
+    icon: Pill,
     color: "text-orange-500"
   }
 ];
@@ -131,7 +131,7 @@ const MedicalHistoryTimeline = () => {
   );
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const options = { year: 'numeric', month: 'long', day: 'numeric' } as Intl.DateTimeFormatOptions;
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
@@ -143,7 +143,7 @@ const MedicalHistoryTimeline = () => {
     }
     groups[year].push(item);
     return groups;
-  }, {});
+  }, {} as Record<string, typeof SAMPLE_MEDICAL_HISTORY>);
 
   return (
     <div className="min-h-screen bg-background">
