@@ -59,6 +59,10 @@ import TreatmentTimeline from './pages/TreatmentTimeline';
 import SpecialistReferrals from './pages/SpecialistReferrals';
 import MedicalHistoryTimeline from './pages/MedicalHistoryTimeline';
 
+// Newly adding these pages
+import MedicalExpenseTracker from './pages/MedicalExpenseTracker';
+import HealthCheckupReminders from './pages/HealthCheckupReminders';
+
 function App() {
   return (
     <Router>
@@ -122,6 +126,10 @@ function App() {
           <Route path="/treatment-timeline" element={<TreatmentTimeline />} />
           <Route path="/specialist-referrals" element={<SpecialistReferrals />} />
           <Route path="/medical-history-timeline" element={<MedicalHistoryTimeline />} />
+          
+          {/* Latest additions */}
+          <Route path="/medical-expense-tracker" element={<MedicalExpenseTracker />} />
+          <Route path="/health-checkup-reminders" element={<HealthCheckupReminders />} />
           
           <Route path="*" element={<NotFound />} />
         </Routes>

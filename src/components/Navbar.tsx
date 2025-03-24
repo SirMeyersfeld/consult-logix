@@ -77,7 +77,8 @@ const Navbar = () => {
         { href: "/specialist-referrals", title: "Specialist Referrals" },
         { href: "/telemedicine", title: "Telemedicine" },
         { href: "/consultation", title: "Consultation" },
-        { href: "/doctor-finder", title: "Doctor Finder" }
+        { href: "/doctor-finder", title: "Doctor Finder" },
+        { href: "/health-checkup-reminders", title: "Checkup Reminders" }
       ]
     },
     {
@@ -99,7 +100,8 @@ const Navbar = () => {
         { href: "/health-news", title: "Health News" },
         { href: "/emergency-contacts", title: "Emergency Contacts" },
         { href: "/patient-community", title: "Patient Community" },
-        { href: "/blog", title: "Blog" }
+        { href: "/blog", title: "Blog" },
+        { href: "/medical-expense-tracker", title: "Expense Tracker" }
       ]
     },
     {
